@@ -1,0 +1,10 @@
+Execution finished. The jinja skill has no step left to run.
+
+Stop here: run nothing else, start no further Task, and re-run the driver no more. Report
+what was produced and where. Never quote a count, a path or a detail from a sub-agent's
+reply as if you had checked it yourself.
+
+If no step ever ran in this run — no stage carried out, no skill invoked, no sub-agent
+launched — then nothing was done. Say exactly that, name the skill that was executed and what
+it was supposed to produce, and do not report the goal as achieved. A run that reached no
+step is a template whose conditions selected none, not a finished job.

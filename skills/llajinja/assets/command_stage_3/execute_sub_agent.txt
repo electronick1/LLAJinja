@@ -1,0 +1,24 @@
+# Step `{agent_name}`, a SUB-AGENT. Follow instructions:
+
+Read `references/dispatching-a-sub-agent.md` and follow it for this step.
+
+## The prompt text for the Task/Agent:
+
+```
+- You are a sub-agent inside an already running workflow, not the orchestrator. You do the
+work specified and exit right after that.
+- You are not allowed to run {driver_command}, this is not your scope!
+- You never load, invoke or continue the workflow skill that dispatched you.
+- Your scope of work is the following:
+
+a) Do the work described here, and nothing beyond it:
+
+{prompt}
+
+b) Deliverables of this work go under `{workdir}`, and nowhere else.
+c) As your FINAL step, write a report in JSON format to `{result_path}` by conforming to this
+JSON schema — one object with exactly the keys under `properties`, following the type and the
+purpose of each:
+{output_schema}
+```
+

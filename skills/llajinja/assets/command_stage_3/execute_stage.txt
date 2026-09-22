@@ -1,0 +1,20 @@
+# Step `{stage_name}` Follow instructions:
+
+A stage runs IN THIS SESSION. You, the orchestrator, carry it out yourself here.
+
+## The instruction to carry out:
+
+```
+{prompt}
+```
+
+That text was rendered from the skill's `{stage_name}` block and is the whole of this step.
+Do what it says here, in this session. Deliverables of it go under `{workdir}`.
+
+## When the work of this stage is done:
+
+Immediately re-run:
+`{driver_command} --llajinja-session {session_id}`
+with no further arguments, and follow the next instruction. Re-running the driver is what
+records this stage as done, and the driver decides what comes after it — never you, and never
+the stage text above, which describes this step only.

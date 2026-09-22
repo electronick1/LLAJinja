@@ -1,0 +1,31 @@
+
+# Follow instructions:
+
+The jinja skill reads input variables that have no value yet and no default. Nothing renders
+until they are provided, so the driver will keep printing this stage until they are.
+
+## Missing input variables:
+
+```
+{variables_block}
+```
+
+## Your only job on this stage is to:
+
+1) Ask the user (using question ask tool if available) for a value for each variable listed above,
+quoting its name and the template that declares it.
+2) Re-run the driver, passing every answer in one call, one `--var` per variable:
+`{example_command}`
+Values are plain strings — quote any value that contains spaces. That command carries the
+session id `{session_id}` of this run, as every call after the first one must. Then follow
+what the driver prints next.
+
+## What you must not do here:
+
+- Do not invent, guess, derive or default a value. These are the skill author's parameters;
+a wrong value renders a wrong run. If, and only if, the user's own request already states a
+value verbatim, you may reuse that value and say so when you ask about the rest.
+- Do not open the jinja skill to look for a value or a default; the driver has already
+scanned it, and what it lists is what is genuinely missing.
+- Do not start a Task on this stage, and do not begin any of the work the skill describes.
+Nothing has been dispatched yet.

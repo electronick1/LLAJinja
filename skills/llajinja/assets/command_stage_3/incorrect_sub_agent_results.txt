@@ -1,0 +1,20 @@
+
+# Follow instructions:
+
+The result file of the sub-agent `{agent_name}`, at `{result_path}`, is missing, is not valid
+JSON, or does not carry the expected keys.
+
+- The result must be one JSON object with exactly the keys under `properties` in this schema:
+{output_schema}
+
+Do not write that file yourself and do not supply any of its values — not with an edit tool,
+not from a shell, not from a script, and not from what the previous Task said in its reply. A
+value that the sub-agent did not measure is an invented value, and the rest of the skill
+branches on it.
+
+Re-launch `{agent_name}` with a NEW Task — never a continuation, never a prior task or
+session id. Give it the same prompt it was given before, and state that writing that JSON to
+`{result_path}` with a file-writing tool is its final step and the reason it was re-launched.
+
+Then re-run `{driver_command} --llajinja-session {session_id}`
+with no further arguments and follow what it prints.

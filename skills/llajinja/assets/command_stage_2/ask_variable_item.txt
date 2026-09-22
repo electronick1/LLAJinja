@@ -1,0 +1,1 @@
+- `{name}` — {requirement}; declared in template `{template}`

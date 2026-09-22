@@ -1,0 +1,17 @@
+
+# Follow instructions:
+
+This call carried no --llajinja-session, so a new run was created: `{session_id}`, executing
+the jinja skill named `{skill_name}`. If you have run this driver before in this session, this
+is not the run you were driving — re-run with the id from the earlier output instead.
+
+Always re-run from the llajinja skill directory to seek the next instruction:
+`{driver_command} --llajinja-session {session_id}`
+
+The --llajinja-session argument is never optional: without it the driver starts a new run
+instead of continuing this one. Copy the id character for character; nothing carries it for
+you.
+
+`python` above is a stand-in for whatever interpreter works in this project (from `uv`, the
+venv, or one the user named). Substitute it for that one word — never prepend a second
+interpreter — and keep using the same one on every later call.
