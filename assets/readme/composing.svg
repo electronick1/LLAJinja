@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1350 563" width="1350" height="563">
+<style>.t{font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,'DejaVu Sans Mono',monospace;font-size:13.0px;dominant-baseline:middle;white-space:pre}.c{font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,'DejaVu Sans Mono',monospace;font-size:11.0px;dominant-baseline:middle;white-space:pre}@keyframes cur{0%,49%{opacity:1}50%,100%{opacity:0}}@keyframes k0{0%,3.042%{opacity:0}4.259%,95%{opacity:1}100%{opacity:0}}@keyframes k1{0%,11.027%{opacity:0}12.243%,95%{opacity:1}100%{opacity:0}}@keyframes k2{0%,19.011%{opacity:0}20.228%,95%{opacity:1}100%{opacity:0}}@keyframes k3{0%,26.996%{opacity:0}28.213%,95%{opacity:1}100%{opacity:0}}@keyframes k4{0%,34.981%{opacity:0}36.198%,95%{opacity:1}100%{opacity:0}}@keyframes k5{0%,42.966%{opacity:0}44.183%,95%{opacity:1}100%{opacity:0}}@keyframes k6{0%,50.951%{opacity:0}52.167%,95%{opacity:1}100%{opacity:0}}</style>
+<defs><marker id="astep" markerWidth="11" markerHeight="9" refX="9.5" refY="4" orient="auto"><path d="M0,0.5 L10,4 L0,7.5 z" fill="#e0a458"/></marker><marker id="avar" markerWidth="11" markerHeight="9" refX="9.5" refY="4" orient="auto"><path d="M0,0.5 L10,4 L0,7.5 z" fill="#e0a458"/></marker></defs>
+<rect x="0" y="0" width="615" height="563" rx="9" fill="#0a0a0c"/><rect x="0.5" y="0.5" width="614" height="562" rx="9" fill="none" stroke="#23232a"/>
+<text class="c" x="16" y="34.0" xml:space="preserve"><tspan fill="#d97757">▌ </tspan><tspan fill="#dcdce2" font-weight="600">SKILL.md</tspan></text>
+<text class="c" x="16" y="62.8" xml:space="preserve"><tspan fill="#5f5f6b">---</tspan></text>
+<text class="c" x="16" y="80.8" xml:space="preserve"><tspan fill="#5f5f6b">name: composing</tspan></text>
+<text class="c" x="16" y="98.8" xml:space="preserve"><tspan fill="#5f5f6b">description: write report</tspan></text>
+<text class="c" x="16" y="116.8" xml:space="preserve"><tspan fill="#5f5f6b">---</tspan></text>
+<text class="c" x="16" y="134.8" xml:space="preserve"><tspan fill="#7ea6f0">{% extends &quot;partials/base.md&quot; %}</tspan></text>
+<text class="c" x="16" y="152.8" xml:space="preserve"><tspan fill="#7ea6f0">{% import &quot;partials/style.md&quot; as style with context %}</tspan></text>
+<text class="c" x="16" y="170.8" xml:space="preserve"><tspan fill="#7ea6f0">{% block report %}</tspan></text>
+<text class="c" x="16" y="188.8" xml:space="preserve"><tspan fill="#7ea6f0">{% stage report %}</tspan></text>
+<text class="c" x="16" y="206.8" xml:space="preserve"><tspan fill="#dcdce2">Write what was gathered about </tspan><tspan fill="#e0a458">{{ input.topic }}</tspan><tspan fill="#dcdce2"> to `report.md`.</tspan></text>
+<text class="c" x="16" y="242.8" xml:space="preserve"><tspan fill="#e0a458">{{ style.audience(input.audience | default(&quot;meetup&quot;)) }}</tspan></text>
+<text class="c" x="16" y="260.8" xml:space="preserve"><tspan fill="#7ea6f0">{% endstage %}</tspan></text>
+<text class="c" x="16" y="278.8" xml:space="preserve"><tspan fill="#7ea6f0">{% endblock %}</tspan></text>
+<rect x="735" y="0" width="615" height="563" rx="9" fill="#0d0d10"/><rect x="735.5" y="0.5" width="614" height="562" rx="9" fill="none" stroke="#23232a"/>
+<g><text class="t" x="761.0" y="34.0" xml:space="preserve"><tspan fill="#d97757">✻ </tspan><tspan fill="#dcdce2" font-weight="600">Claude Code / OpenCode / Codex / PI</tspan></text></g>
+<g style="opacity:0;animation:k0 26.3s linear infinite"><text class="t" x="761.0" y="73.6" xml:space="preserve"><tspan fill="#74747f">&gt; </tspan><tspan fill="#dcdce2">/llajinja run /composing skill</tspan></text></g>
+<g style="opacity:0;animation:k1 26.3s linear infinite"><text class="t" x="761.0" y="117.6" xml:space="preserve"><tspan fill="#dcdce2">⏺ </tspan><tspan fill="#dcdce2" font-weight="600">Skill(llajinja)</tspan></text></g>
+<g style="opacity:0;animation:k1 26.3s linear infinite"><text class="t" x="776.6" y="139.6" xml:space="preserve"><tspan fill="#74747f">⎿  </tspan><tspan fill="#74747f">executing the composing skill — it is built out of two others:</tspan></text></g>
+<g style="opacity:0;animation:k1 26.3s linear infinite"><text class="t" x="776.6" y="161.6" xml:space="preserve"><tspan fill="#74747f">⎿  </tspan><tspan fill="#74747f">a base it extends, and a library of wording it imports</tspan></text></g>
+<g style="opacity:0;animation:k2 26.3s linear infinite"><text class="t" x="761.0" y="205.6" xml:space="preserve"><tspan fill="#dcdce2">⏺ </tspan><tspan fill="#e0a458" font-weight="600">Next step — stage: gather</tspan></text></g>
+<g style="opacity:0;animation:k2 26.3s linear infinite"><text class="t" x="776.6" y="227.6" xml:space="preserve"><tspan fill="#74747f">⎿  </tspan><tspan fill="#74747f">Collect what is known about the topic, here in the session.</tspan></text></g>
+<g style="opacity:0;animation:k3 26.3s linear infinite"><text class="t" x="761.0" y="271.6" xml:space="preserve"><tspan fill="#dcdce2">⏺ </tspan><tspan fill="#dcdce2">Collected what is known, here in the session</tspan></text></g>
+<g style="opacity:0;animation:k4 26.3s linear infinite"><text class="t" x="761.0" y="315.6" xml:space="preserve"><tspan fill="#dcdce2">⏺ </tspan><tspan fill="#e0a458" font-weight="600">Next step — stage: report</tspan></text></g>
+<g style="opacity:0;animation:k4 26.3s linear infinite"><text class="t" x="776.6" y="337.6" xml:space="preserve"><tspan fill="#74747f">⎿  </tspan><tspan fill="#74747f">Write what was gathered to a report, in the imported wording.</tspan></text></g>
+<g style="opacity:0;animation:k5 26.3s linear infinite"><text class="t" x="761.0" y="381.6" xml:space="preserve"><tspan fill="#dcdce2">⏺ </tspan><tspan fill="#dcdce2">Wrote the report</tspan></text></g>
+<g style="opacity:0;animation:k6 26.3s linear infinite"><text class="t" x="761.0" y="425.6" xml:space="preserve"><tspan fill="#dcdce2">⏺ </tspan><tspan fill="#8fbf6f" font-weight="600">Run finished — two steps, drawn from two files</tspan></text></g>
+<g style="opacity:0;animation:k2 26.3s linear infinite"><rect x="9" y="123.6" width="597" height="22.3" rx="4" fill="#e0a458" fill-opacity="0.13" stroke="#e0a458" stroke-opacity="0.6"/></g>
+<g style="opacity:0;animation:k2 26.3s linear infinite"><path d="M606.0 134.8 C672 134.8 672 205.6 739.0 205.6" fill="none" stroke="#e0a458" stroke-width="5" opacity="0.16" stroke-linecap="round"/><path d="M606.0 134.8 C672 134.8 672 205.6 739.0 205.6" fill="none" stroke="#e0a458" stroke-width="2" opacity="0.95" marker-end="url(#astep)"/></g>
+<g style="opacity:0;animation:k4 26.3s linear infinite"><rect x="9" y="159.6" width="597" height="130.3" rx="4" fill="#e0a458" fill-opacity="0.13" stroke="#e0a458" stroke-opacity="0.6"/></g>
+<g style="opacity:0;animation:k4 26.3s linear infinite"><path d="M606.0 224.8 C672 224.8 672 315.6 739.0 315.6" fill="none" stroke="#e0a458" stroke-width="5" opacity="0.16" stroke-linecap="round"/><path d="M606.0 224.8 C672 224.8 672 315.6 739.0 315.6" fill="none" stroke="#e0a458" stroke-width="2" opacity="0.95" marker-end="url(#astep)"/></g>
+<g style="opacity:0;animation:k5 26.3s linear infinite"><rect x="9" y="231.6" width="597" height="22.3" rx="4" fill="#e0a458" fill-opacity="0.13" stroke="#e0a458" stroke-opacity="0.6"/></g>
+<g style="opacity:0;animation:k5 26.3s linear infinite"><path d="M606.0 242.8 C672 242.8 672 381.6 739.0 381.6" fill="none" stroke="#e0a458" stroke-width="5" opacity="0.16" stroke-linecap="round"/><path d="M606.0 242.8 C672 242.8 672 381.6 739.0 381.6" fill="none" stroke="#e0a458" stroke-width="2" opacity="0.95" marker-end="url(#avar)"/></g>
+<rect x="761" y="473.6" width="563" height="46.0" rx="9" fill="none" stroke="#32323c"/>
+<text class="t" x="777" y="496.6" fill="#74747f">&gt;</text>
+<text class="t" x="792.6" y="496.6" fill="#575763">/llajinja run /composing skill</text>
+<rect x="792.6" y="488.6" width="8" height="16" fill="#dcdce2" opacity="0.5" style="animation:cur 1.1s step-end infinite"/>
+<text class="t" x="777" y="536.1" fill="#74747f">? for shortcuts</text>
+</svg>
