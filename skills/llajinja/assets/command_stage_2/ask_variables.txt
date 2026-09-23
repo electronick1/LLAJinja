@@ -27,5 +27,5 @@ a wrong value renders a wrong run. If, and only if, the user's own request alrea
 value verbatim, you may reuse that value and say so when you ask about the rest.
 - Do not open the jinja skill to look for a value or a default; the driver has already
 scanned it, and what it lists is what is genuinely missing.
-- Do not start a Task on this stage, and do not begin any of the work the skill describes.
+- Do not start a Agent/Task on this stage, and do not begin any of the work the skill describes.
 Nothing has been dispatched yet.
