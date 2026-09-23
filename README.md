@@ -1,6 +1,6 @@
 # LLAJinja
 
-LLAJinja is a skill that runs other skills written as Jinja templates. No extensions or plugins required. Works in any Harness or AI dev tool that supports skill loading (Claude Code, OpenCode, Codex, Pi ...) 
+LLAJinja is a Skill that runs other Skills written as Jinja templates. No extensions or plugins required. Works in any Harness or AI dev tool that supports skill loading (Claude Code, OpenCode, Codex, Pi ...) 
 
 ![image](https://github.com/user-attachments/assets/c34e3391-60d7-4a78-8415-48f335fe3e35)
 
@@ -11,7 +11,7 @@ LLAJinja is a skill that runs other skills written as Jinja templates. No extens
 
 ### Variables
 
-Declare the variables your skill needs with `input.<name>`. If a value isn't provided when the skill runs, LLAJinja asks the harness to prompt the user for it. 
+Declare the variables your Skill needs with `input.<name>`. If a value isn't provided when the skill runs, LLAJinja asks the harness to prompt the user for it. 
 
 ![Variables demo](https://github.com/electronick1/LLAJinja/blob/dev/assets/readme/variables.svg)
 
