@@ -15,15 +15,15 @@ This skill is executed in three roles:
 
 **ORCHESTRATOR** — the session where the user asked to run this skill. You run the driver and
 perform exactly what it prints, then run the driver again, until it prints that execution is
-finished. One of the three step kinds you perform yourself, in this session (a **stage**);
-the other two you dispatch as a Task/Agent and nothing more. The driver tells you which kind each
-step is; you never decide that.
+finished. Some steps can be executed in this session (a **stage**), other you dispatch
+as a Task/Agent and nothing more. The driver tells you which kind each step is; you never
+decide that.
 
-**SUB-AGENT** — an Agent dispatched as a Task the orchestrator started for a `sub_agent` step.
+**SUB-AGENT** — an Agent dispatched as an Agent/Task the orchestrator started for a `sub_agent` step.
 As sub-agent you do one step of the real work and write ONE result JSON file. Then you exit.
 You never run `scripts/get_next_instruction.py`, and you never load this skill.
 
-**NESTED ORCHESTRATOR** — a Task the orchestrator started for a nested jinja skill. You drive
+**NESTED ORCHESTRATOR** — an Agent/Task the orchestrator started for a nested jinja skill. You drive
 one nested llajinja run — with the session id that run prints for itself, never one handed to
 you from outside — write ONE result JSON file, and exit.
 
@@ -46,7 +46,7 @@ you from outside — write ONE result JSON file, and exit.
 
 ## Execution protocol for a sub-agent or a nested orchestrator
 
-If you are a SUB-AGENT or a NESTED ORCHESTRATOR, do the scope of work your dispatch named,
+If you are a SUB-AGENT, do the scope of work your dispatch named,
 write the one JSON result file it named, and exit. You never perform orchestrator duty for the
 run that dispatched you, and finding this skill in your own list of available skills is not an
 invitation to load it — under friction, report the friction and exit.
