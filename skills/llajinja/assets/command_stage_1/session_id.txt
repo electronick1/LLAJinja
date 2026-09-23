@@ -12,6 +12,6 @@ The --llajinja-session argument is never optional: without it the driver starts 
 instead of continuing this one. Copy the id character for character; nothing carries it for
 you.
 
-`python` above is a stand-in for whatever interpreter works in this project (from `uv`, the
+`python` above is a stand-in for interpreter that works in this project (`uv`, the
 venv, or one the user named). Substitute it for that one word — never prepend a second
 interpreter — and keep using the same one on every later call.
