@@ -17,9 +17,8 @@ Declare the variables your skill needs with `input.<name>`. If a value isn't pro
 
 ### Stages
 
-Split a multi-step skill into smaller, sequential steps. Use them when one step depends on the result of another and you want the agent to work through them one at a time in one session. 
+Split a multi-step skill into smaller, sequential steps. Use them when one step depends on the result of another and you want the agent to work through them one at a time in one session:
 
-Stages add a new block type to your Jinja templates: 
 ```jinja
 {% stage name %} stage text {% endstage %}
 ```
