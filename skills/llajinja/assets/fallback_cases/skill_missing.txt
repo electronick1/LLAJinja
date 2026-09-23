@@ -1,0 +1,16 @@
+
+# Skill missing:
+
+{problem}
+
+No run was created and nothing was written. `--skill` takes the name a skill is installed
+under, and llajinja looks for it beside itself, among the other skills of this project. That
+is the only place it looks: a skill that lives anywhere else cannot be run until it is
+installed there.
+
+Ask the user which skill they want executed, then make the first call again with its name:
+`{driver_command} --skill "<name>"`
+
+Do not create that skill, do not write one of your own, and do not satisfy the user's request
+by hand instead. There is nothing to resume: until a skill loads, this driver has no run to
+drive.

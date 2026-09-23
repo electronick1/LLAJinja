@@ -1,0 +1,25 @@
+
+# Step `{step_name}` Follow instructions:
+
+Read `references/dispatching-a-nested-skill.md` and follow it for this step.
+
+## The prompt text for the Task/Agent:
+
+```
+- You are a sub-agent inside an already running workflow. Within it you drive exactly one
+nested run, the one described here, and then you exit. You orchestrate nothing else.
+- Start that nested run from the llajinja skill directory:
+{driver_command} --skill "{skill_name}"
+- The id that nested run printed is the only session id you ever pass. 
+- When it asks for a working directory, answer `{workdir}`. Deliverables go there.
+- Pass exactly these variables, unchanged, on the call that asks for them (the list is empty if it needs none):
+{var_args}
+Never invent, alter or add a variable. If it still asks for one that is not in that list,
+ask the user rather than filling it in.
+- As your FINAL step, once that nested run has printed that execution is finished, write a
+report in JSON format to `{result_path}` by conforming to this JSON schema — one object with
+exactly the keys under `properties`, following the type and the purpose of each:
+{output_schema}
+```
+{extra_context}
+

@@ -1,0 +1,11 @@
+
+This run cannot start: `scripts/emulator.py` needs the module `{module_name}`, which this
+python ({executable}) cannot import.
+
+This may be the wrong python, or a broken install. If the user or the project named a
+specific interpreter, re-run this same command once with it, never prepending it to
+another interpreter. If none was named, try `uv run
+{driver_command}`, then `.venv/bin/{driver_command}`, once each. If those fail too, it is not
+yours to repair: do not install anything, do not set PYTHONPATH, do not edit the skill.
+Report this and stop — no step was reached, so do not produce the skill's deliverables
+yourself.

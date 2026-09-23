@@ -1,0 +1,7 @@
+
+The jinja skill could not be loaded:
+  {error}
+
+Do not edit the skill, do not repair the template, do not work around it with a copy of your
+own, and do not carry out the work the skill describes instead. Report the error text above
+to the user verbatim and in full, together with the template and location it names, and stop.

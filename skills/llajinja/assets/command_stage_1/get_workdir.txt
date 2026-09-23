@@ -1,0 +1,10 @@
+
+# Follow instructions:
+
+Give the full directory path where the deliverables of this run should be saved. That is the
+working directory for the deliverables — NOT the llajinja skill directory, and NOT the
+directory of the jinja skill being executed. Current working directory should be a default
+if it's not suitable - ask.
+
+Re-run `{driver_command} --llajinja-session {session_id} "<path>"`
+writing the path as 1 argument.
