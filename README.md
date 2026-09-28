@@ -59,7 +59,8 @@ Jinja's built-in `extends`and `include` tags are supported, so you can assemble 
 ## Get started
 
 1. **Install Jinja2.** LLAJinja requires the `Jinja2` Python library. Either make sure it's available on your `PATH`, or point to a Python interpreter that has it installed in your prompt, `AGENTS.md`, or `SKILL.md`.
-2. **Add LLAJinja to your skills folder.** Copy it manually or install it via npx.
+2. **Add LLAJinja to your skills folder.** Copy it manually or install it via npx: <br>
+`npx skills add https://github.com/electronick1/LLAJinja --skill llajinja`
 3. **Run a templated skill.** Ask your agent: `llajinja run your-skill`
 
 ☝️Run Harnesses in a sandbox (built-in or your own): Jinja's `ImmutableSandboxedEnvironment` that used in here is not a complete security boundary, and yours templates or skills generate by AI should be treated as untrusted.
