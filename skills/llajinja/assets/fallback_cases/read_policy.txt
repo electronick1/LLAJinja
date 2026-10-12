@@ -1,0 +1,23 @@
+
+# Stop. You cannot proceed any further.
+
+The jinja skill uses `decision_state_from_file()` or `find_files`, which requires a `llajinja.toml` in the project's
+working directory with a narrow scope of read permissions. None usable was found:
+  {problem}
+
+User action is required. After reporting to the user, stop the process: you must not create or
+edit that file, must not read those files by any other means, and must not carry out the
+skill's work instead.
+
+Tell the user, in these words:
+
+  "This skill reads project files and needs a `llajinja.toml` in the working directory that
+  defines the read permissions — as globs, as narrow as the skill needs. For example:
+
+      [read]
+      allow = ["docs/**/*.md"]
+
+  `llajinja.toml` must be read-only for the Harness: configure the harness settings so that
+  the Harness is denied writing or editing this file."
+
+Report this message to the user verbatim and stop.

@@ -15,15 +15,15 @@ This skill is executed in three roles:
 
 **ORCHESTRATOR** — the session where the user asked to run this skill. You run the driver and
 perform exactly what it prints, then run the driver again, until it prints that execution is
-finished. Some steps can be executed in this session (a **stage**), other you dispatch
-as a Task/Agent and nothing more. The driver tells you which kind each step is; you never
+finished. Some steps can be executed in this session (a **stage**); some other you dispatch as
+a Task/Agent and nothing more. The driver tells you exactly which kind each step is; you never
 decide that.
 
-**SUB-AGENT** — an Agent dispatched as an Agent/Task the orchestrator started for a `sub_agent` step.
+**SUB-AGENT** — an Agent dispatched as a Agent/Task the orchestrator started for a `sub_agent` step.
 As sub-agent you do one step of the real work and write ONE result JSON file. Then you exit.
 You never run `scripts/get_next_instruction.py`, and you never load this skill.
 
-**NESTED ORCHESTRATOR** — an Agent/Task the orchestrator started for a nested jinja skill. You drive
+**NESTED ORCHESTRATOR** — a Agent/Task the orchestrator started for a nested jinja skill. You drive
 one nested llajinja run — with the session id that run prints for itself, never one handed to
 you from outside — write ONE result JSON file, and exit.
 
@@ -64,7 +64,9 @@ top-to-bottom.** Always do exactly what the latest execution printed, then re-ru
 Phases can repeat, branch, or arrive in a different order.
 
 **Phase 1 — setup.** Once, and only once per run, call the driver with the skill the user
-named and no id: `python scripts/get_next_instruction.py --skill "<name>"`. It prints the
+named and no id: `python scripts/get_next_instruction.py --skill "<name>"`. If the working
+directory for deliverables is already known, add `--workdir "<path>"` to that same first call
+and setup will not ask for it again. It prints the
 `--llajinja-session` id to use. That form is the first call of the run and never appears
 again; every later call carries the id. A call without the id never continues a run — it
 starts a new one and abandons yours. If setup asks for anything else (normally the working
@@ -98,9 +100,9 @@ After every step, whichever kind it was, re-run
 `python scripts/get_next_instruction.py --llajinja-session <id>` and follow what it prints,
 until it prints that execution is finished.
 
-If the driver reports that the skill could not be loaded, the template is broken. There is no
-worker to regenerate it and re-running prints the same error: report the error verbatim and
-stop, without editing the skill and without doing its work by hand.
+If the driver reports that the skill could not be loaded, or prints that you cannot proceed,
+there is nothing for you to repair and re-running prints the same message: report it
+verbatim and stop, without editing the skill and without doing its work by hand.
 
 
 ## Core rules you must always follow
@@ -115,8 +117,10 @@ stop, without editing the skill and without doing its work by hand.
    not continue your run — it starts a new one. Copy the id from the driver output character
    for character; never retype it from memory.
 4. As the orchestrator, stop only when the driver prints a line stating `Execution finished`.
-   Every turn you take must contain a call for the next instruction; deciding to stop, or
-   saying that you will re-run the driver without actually calling it, is not permitted.
+   When that line ends a stage's instruction, it applies once the stage is done — carry the
+   stage out first. Every other turn you take must contain a call for the next instruction;
+   deciding to stop, or saying that you will re-run the driver without actually calling it,
+   is not permitted.
 5. Paths and prompts in the driver's output are copied exactly as printed. Text the driver
    prints inside a fenced block for a Task is passed on **verbatim** — not paraphrased, not
    summarised, not shortened. Paraphrasing a dispatch changes what the Task is obliged to do.
@@ -125,8 +129,9 @@ stop, without editing the skill and without doing its work by hand.
    or improper arguments. The driver creates and owns its own directories.
 7. **Result files belong to the sub-agents.** If one is missing, wrong or rejected, never
    repair it — re-run the driver and let it re-dispatch. Never open a write or edit tool on a
-   result JSON, on the run's log, or on the jinja skill's templates; never `mkdir`, `rm` or
-   `touch` a path the driver printed.
+   result JSON, on the run's log, or on the jinja skill's templates. Under a path the driver
+   printed, do only what a step's instructions explicitly direct, exactly as directed —
+   nothing on your own initiative, no `mkdir`, `rm` or `touch` the instructions did not ask for.
 8. **Never invent an output.** A result value must have been measured by the sub-agent that
    ran — not guessed, not carried over from a Task's prose reply, not decided by you.
 9. A variable value comes from the user; a result value comes from a sub-agent; the next step
