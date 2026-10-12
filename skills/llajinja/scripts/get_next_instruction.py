@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import abc
 import argparse
+import asyncio
 import contextlib
 import dataclasses
 import fcntl
@@ -9,16 +10,19 @@ import json
 import os
 import secrets
 import shlex
+import stat
 import string
 import sys
 import time
+import tomllib
 from dataclasses import dataclass
 from importlib import util
 from pathlib import Path
-from typing import Any, NoReturn, Required, Self, TypedDict
+from typing import Any, NoReturn, NotRequired, Required, Self, TypedDict
 
 # Will be initialized based on the current path of the script
 emulator_module: Any = None
+decision_model: Any = None
 
 SKILL_ROOT = Path(__file__).resolve().parent.parent
 
@@ -26,6 +30,8 @@ LLAJINJA_WORKFLOW_PATH = "LLAJINJA_WORKFLOW_PATH"
 LLAJINJA_DEFAULT_RUNTIME = "/tmp/"
 LLAJINJA_RUNTIME_LOG_NAME = "runtime.log"
 LLAJINJA_RUNTIME_RESULT_REL = Path("runtime_result")
+LLAJINJA_RUNTIME_TEMP_REL = Path("runtime_temp")
+LLAJINJA_POLICY_FILE = "llajinja.toml"
 
 # The command every asset tells the orchestrator to re-run, spelled once.
 DRIVER_COMMAND = "python scripts/get_next_instruction.py"
@@ -51,6 +57,14 @@ class EmulatorLoadError(Exception):
     """emulator.py could not be imported at all. Carries the missing dependency's name."""
 
 
+class DecisionModelError(Exception):
+    """A decision agent could not be answered: no SDK, no API key, or the API failed."""
+
+
+class ReadPolicyError(Exception):
+    """A skill reads files and the working directory's llajinja.toml is missing or wrong."""
+
+
 # ---------------------------------------------------------------------------
 # agent_instruction templates
 # ---------------------------------------------------------------------------
@@ -70,6 +84,10 @@ PROMPT_GET_WORKDIR = _internal_asset("command_stage_1/get_workdir.txt")
 PROMPT_ASK_VARIABLES = _internal_asset("command_stage_2/ask_variables.txt")
 PROMPT_ASK_VARIABLE_ITEM = _internal_asset("command_stage_2/ask_variable_item.txt")
 PROMPT_EXECUTE_STAGE = _internal_asset("command_stage_3/execute_stage.txt")
+PROMPT_EXECUTE_STAGE_ENDING = _internal_asset("command_stage_3/stage_ending_next.txt")
+PROMPT_EXECUTE_STAGE_ENDING_LAST = _internal_asset(
+    "command_stage_3/stage_ending_last.txt"
+)
 PROMPT_EXECUTE_SUB_AGENT = _internal_asset("command_stage_3/execute_sub_agent.txt")
 PROMPT_EXECUTE_NESTED_SKILL = _internal_asset(
     "command_stage_3/execute_nested_skill.txt"
@@ -91,6 +109,7 @@ PROMPT_FALLBACK_TEMPLATE_LOAD_FAILED = _internal_asset(
 PROMPT_FALLBACK_EMULATOR_UNIMPORTABLE = _internal_asset(
     "fallback_cases/emulator_unimportable.txt"
 )
+PROMPT_FALLBACK_READ_POLICY = _internal_asset("fallback_cases/read_policy.txt")
 
 
 # ---------------------------------------------------------------------------
@@ -183,6 +202,10 @@ class RuntimeLogStepDispatch(RuntimeLogRecord):
         iteration: Required[int]
         result_id: Required[str]
         expected_output: Required[dict[str, str]]
+        find_files_results: NotRequired[dict[str, list[str]]]
+        items: NotRequired[list[str]]
+        questions: NotRequired[dict[str, dict[str, Any]]]
+        last: NotRequired[bool]
 
     payload: RuntimeLogStepDispatch.Payload
     msg: str = "step-dispatch"
@@ -231,8 +254,35 @@ def record_supplied_variables(ctx: RequestContext) -> None:
                 f"--var expects name=value, got: {item!r}. Nothing was recorded."
             )
         values[name.strip()] = value
+    known = RuntimeLogVariables.merged(RuntimeLogRecord.load(ctx.runtime_log_path))
+    for name, value in values.items():
+        if known.get(name, value) != value:
+            raise NextInstructionError(
+                f"--var cannot change {name!r}: this run already has a value for it. "
+                "Nothing was recorded."
+            )
     if values:
         locked_write_record(ctx, RuntimeLogVariables(payload={"values": values}))
+
+
+def read_policy(workdir: str) -> list[str] | None:
+    """The globs `<workdir>/llajinja.toml` lets a skill read; None when there is no file."""
+    path = Path(workdir).resolve() / LLAJINJA_POLICY_FILE
+    try:
+        info = path.lstat()
+    except OSError:
+        return None
+    if not stat.S_ISREG(info.st_mode):
+        raise ReadPolicyError(f"{path} must be a regular file, not a link")
+    try:
+        allow = tomllib.loads(path.read_text(encoding="utf-8"))["read"]["allow"]
+    except (tomllib.TOMLDecodeError, UnicodeDecodeError, KeyError, TypeError) as exc:
+        raise ReadPolicyError(
+            f"{path}: expected [read] allow = [globs]: {exc!r}"
+        ) from exc
+    if not isinstance(allow, list) or not all(isinstance(g, str) and g for g in allow):
+        raise ReadPolicyError(f"{path}: [read] allow must be a list of globs")
+    return allow
 
 
 def output_json_schema(
@@ -265,6 +315,8 @@ def template_errors(skill: str):
     module = import_emulator()
     try:
         yield
+    except module.ReadPolicyMissing as exc:
+        raise ReadPolicyError(str(exc)) from exc
     except module.TemplateLoadError as exc:
         raise TemplateLoadError(str(exc)) from exc
     except Exception as exc:
@@ -286,6 +338,57 @@ def import_emulator() -> Any:
         raise EmulatorLoadError(exc.name or str(exc)) from exc
     emulator_module = emulator
     return emulator
+
+
+class DecisionModel:
+    """One SDK client for the process, opened by the first decision step."""
+
+    def __init__(self) -> None:
+        self.runner: asyncio.Runner | None = None
+        self.client: Any = None
+
+    async def ask_all(self, items: dict[str, Any]) -> list[Any]:
+        # One request per agent, on its own state, at most 10 running at a time.
+        limit = asyncio.Semaphore(10)
+
+        async def ask(item: Any) -> Any:
+            async with limit:
+                response = await self.client.system_one(item.state, item.questions)
+            return response.model_dump(mode="json")["answers"]
+
+        return await asyncio.gather(*map(ask, items.values()))
+
+    def answer(self, items: dict[str, Any]) -> dict[str, Any]:
+        try:
+            import typesafe_sdk
+        except ImportError as exc:
+            raise DecisionModelError(
+                f"the optional typesafe-sdk package is missing for {sys.executable}"
+            ) from exc
+        try:
+            if self.client is None:
+                self.runner = asyncio.Runner()
+                self.client = typesafe_sdk.AsyncTypeSafeClient()
+            answers = self.runner.run(self.ask_all(items))
+        except typesafe_sdk.TypeSafeError as exc:
+            raise DecisionModelError(f"{exc!r}") from exc
+        except Exception as exc:
+            raise DecisionModelError(f"{exc!r}") from exc
+        return dict(zip(items, answers))
+
+    def close(self) -> None:
+        if self.client is not None:
+            with contextlib.suppress(Exception):
+                self.runner.run(self.client.aclose())
+            self.runner.close()
+        self.runner = self.client = None
+
+
+def load_decision_model() -> Any:
+    global decision_model
+    if decision_model is None:
+        decision_model = DecisionModel()
+    return decision_model
 
 
 def result_is_complete(values: Any, output_keys: list[str]) -> bool:
@@ -311,6 +414,7 @@ def demand_step_result(ctx: RequestContext, payload: dict) -> NoReturn:
 def create_runtime_log(ctx: RequestContext) -> bool:
     ctx.runtime_path.mkdir(parents=True, exist_ok=True)
     ctx.result_dir.mkdir(parents=True, exist_ok=True)
+    ctx.temp_dir.mkdir(parents=True, exist_ok=True)
 
     if ctx.runtime_log_path.exists():
         return False
@@ -329,6 +433,33 @@ def resolved_within(base_path: Path, relative_path: str | Path) -> Path:
     return full_path.resolve()
 
 
+def resolve_runtime_base() -> Path:
+    given = os.environ.get(LLAJINJA_WORKFLOW_PATH)
+    if not given:
+        return Path(LLAJINJA_DEFAULT_RUNTIME).resolve()
+    path = Path(given)
+    if not path.is_absolute():
+        raise NextInstructionError(
+            f"{LLAJINJA_WORKFLOW_PATH} must be an absolute path: {given!r}"
+        )
+    real = path.resolve()
+    try:
+        info = real.stat()
+    except OSError as exc:
+        raise NextInstructionError(
+            f"{LLAJINJA_WORKFLOW_PATH} is not usable: {exc.strerror}"
+        ) from exc
+    if not stat.S_ISDIR(info.st_mode):
+        raise NextInstructionError(
+            f"{LLAJINJA_WORKFLOW_PATH} must be an existing directory: {given!r}"
+        )
+    if info.st_uid != os.getuid():
+        raise NextInstructionError(
+            f"{LLAJINJA_WORKFLOW_PATH} must be a directory you own: {given!r}"
+        )
+    return real
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Get the next instruction for the LLAJinja run."
@@ -340,6 +471,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--llajinja-session", default=None)
     parser.add_argument("--skill", default=None)
+    parser.add_argument("--workdir", default=None)
     parser.add_argument("--var", action="append", default=None, metavar="NAME=VALUE")
     return parser.parse_args()
 
@@ -364,9 +496,7 @@ class RequestContext:
     def create(cls, parsed: argparse.Namespace) -> Self:
         """Resolve the workspace this invocation addresses, from the command line."""
         session_id = parsed.llajinja_session or cls.generate_session_id()
-        base = os.environ.get(LLAJINJA_WORKFLOW_PATH, LLAJINJA_DEFAULT_RUNTIME)
-        assert base
-        base_path = Path(base).resolve()
+        base_path = resolve_runtime_base()
         runtime_path = resolved_within(base_path / "llajinja", session_id)
         return cls(
             parsed=parsed,
@@ -381,8 +511,23 @@ class RequestContext:
     def result_dir(self) -> Path:
         return self.runtime_path / LLAJINJA_RUNTIME_RESULT_REL
 
+    @property
+    def temp_dir(self) -> Path:
+        return self.runtime_path / LLAJINJA_RUNTIME_TEMP_REL
+
     def result_file(self, result_id: str) -> Path:
         return resolved_within(self.result_dir, f"{result_id}.json")
+
+    @property
+    def given_workdir(self) -> str | None:
+        """The working directory this call names, when it is an existing absolute directory;
+        anything else counts as not given, so setup asks again."""
+        given = self.parsed.workdir or (
+            self.parsed.args[0] if self.parsed.args else None
+        )
+        if given and Path(given).is_absolute() and Path(given).is_dir():
+            return given
+        return None
 
     @staticmethod
     def generate_session_id() -> str:
@@ -419,6 +564,12 @@ class ExecuteHandler(StageHandler):
     next_stage = None
 
     def handle(self) -> RuntimeLogRecord:
+        # execute() returns None once it has answered a decision step: render again.
+        while (record := self.execute()) is None:
+            pass
+        return record
+
+    def execute(self) -> RuntimeLogRecord | None:
         ctx = self.ctx
         records = (
             ctx.records
@@ -429,11 +580,24 @@ class ExecuteHandler(StageHandler):
         module = import_emulator()
 
         answers, dispatched, unanswered = self.replay_records(records)
+        workdir = RuntimeLogCreated.workdir(records)
+        policy = read_policy(workdir) if workdir else None
+        find_files_results = {
+            key: paths
+            for payload in RuntimeLogStepDispatch.payloads(records)
+            for key, paths in payload.get("find_files_results", {}).items()
+        }
         with template_errors(skill_name):
             emulator = module.Emulator.load(
-                skill_name, variables=RuntimeLogVariables.merged(records)
+                skill_name=skill_name, variables=RuntimeLogVariables.merged(records)
             )
-            result = emulator.run(answers)
+            result = emulator.run(
+                answers=answers,
+                temp_dir=ctx.temp_dir,
+                workdir=workdir,
+                find_files_results=find_files_results,
+                policy=policy,
+            )
 
         self.check_replay(dispatched, result)
 
@@ -441,24 +605,47 @@ class ExecuteHandler(StageHandler):
             return RuntimeLogExecutionFinished(agent_instruction=PROMPT_FINISHED)
         if unanswered is not None:
             demand_step_result(ctx, unanswered)
-        return self.emit_step_dispatch(
-            ctx, result.pending, len(records), RuntimeLogCreated.workdir(records)
+        dispatch = self.emit_step_dispatch(ctx, result.pending, len(records), workdir)
+        # New find_files() results, recorded so that later renders get the same ones.
+        if new_find_files_results := {
+            key: paths
+            for key, paths in result.find_files_results.items()
+            if key not in find_files_results
+        }:
+            dispatch.payload["find_files_results"] = new_find_files_results
+        if result.pending.kind != module.StepKind.DECISION:
+            return dispatch
+        # A decision step is answered here, by the decision model.
+        recorded = load_decision_model().answer(result.pending.request.items)
+        # The result before its dispatch: a dispatch is never left without one.
+        locked_write_record(
+            ctx,
+            RuntimeLogStepResult(
+                payload={
+                    "iteration": len(records),
+                    "args": {"answers": recorded},
+                    "result_file": None,
+                }
+            ),
         )
+        locked_write_record(ctx, dispatch)
+        return None
 
     @staticmethod
     def replay_records(
         records: list[RuntimeLogRecord],
-    ) -> tuple[list[dict], list[str], dict | None]:
+    ) -> tuple[list[dict], list[dict], dict | None]:
         results = {
             payload.get("iteration"): payload.get("args")
             for payload in RuntimeLogStepResult.payloads(records)
         }
         answers: list[dict] = []
-        dispatched: list[str] = []
+        dispatched: list[dict] = []
         for payload in RuntimeLogStepDispatch.payloads(records):
-            step_name = payload.get("step_name")
-            assert step_name, "Inconsistent runtime log, no step name found"
-            dispatched.append(step_name)
+            assert payload.get(
+                "step_name"
+            ), "Inconsistent runtime log, no step name found"
+            dispatched.append(payload)
 
             expected = payload.get("expected_output") or {}
             if not expected:
@@ -473,8 +660,9 @@ class ExecuteHandler(StageHandler):
         return answers, dispatched, None
 
     @staticmethod
-    def check_replay(dispatched: list[str], result) -> None:
-        for expected, step in zip(dispatched, result.answered):
+    def check_replay(dispatched: list[dict], result) -> None:
+        for payload, step in zip(dispatched, result.answered):
+            expected = payload["step_name"]
             if step.step_name != expected:
                 raise TemplateLoadError(
                     f"the log says step {expected!r} ran here, but the skill now "
@@ -482,6 +670,18 @@ class ExecuteHandler(StageHandler):
                     "run starts, so the overwhelmingly likely cause is that it was "
                     "edited since this run began. Start a new run; this one can no "
                     "longer be replayed."
+                )
+            recorded_items = payload.get("items")
+            if (
+                recorded_items is not None
+                and step.request
+                and list(step.request.items) != recorded_items
+            ):
+                raise TemplateLoadError(
+                    f"the log says the decision step {expected!r} asked {recorded_items}, "
+                    f"but the skill now asks {list(step.request.items)}: a bundle's members "
+                    "may depend on inputs, results and find_files() lists only. Start a new "
+                    "run."
                 )
 
     @staticmethod
@@ -496,12 +696,19 @@ class ExecuteHandler(StageHandler):
         result_path = ctx.result_file(result_id)
 
         if step.kind == kind.STAGE:
-            instruction = PROMPT_EXECUTE_STAGE.format(
+            fields = dict(
                 driver_command=DRIVER_COMMAND,
                 stage_name=step.step_name,
-                prompt=step.prompt.strip(),
                 session_id=ctx.session_id,
                 workdir=workdir,
+            )
+            ending = (
+                PROMPT_EXECUTE_STAGE_ENDING_LAST
+                if step.last
+                else PROMPT_EXECUTE_STAGE_ENDING
+            ).format(**fields)
+            instruction = PROMPT_EXECUTE_STAGE.format(
+                prompt=step.prompt.strip(), ending=ending, **fields
             )
         elif step.kind == kind.SUB_AGENT:
             instruction = PROMPT_EXECUTE_SUB_AGENT.format(
@@ -515,10 +722,15 @@ class ExecuteHandler(StageHandler):
             )
         elif step.kind == kind.NESTED_SKILL:
             extra_context = step.prompt.strip()
+            if len(step.nested.skill_name.split()) != 1:
+                raise TemplateLoadError(
+                    f"{{% agent {step.step_name} %}} nested= has whitespace in it: "
+                    f"{step.nested.skill_name!r}"
+                )
             instruction = PROMPT_EXECUTE_NESTED_SKILL.format(
                 driver_command=DRIVER_COMMAND,
                 step_name=step.step_name,
-                skill_name=shlex.quote(step.nested.skill_name.split()[0]),
+                skill_name=shlex.quote(step.nested.skill_name),
                 var_args=" ".join(
                     f"--var {shlex.quote(f'{name}={value}')}"
                     for name, value in step.nested.input.items()
@@ -535,22 +747,31 @@ class ExecuteHandler(StageHandler):
                     else ""
                 ),
             )
+        elif step.kind == kind.DECISION:
+            instruction = None  # answered by the driver, never printed
         else:
             raise NextInstructionError(
                 f"Unknown step kind from the emulator: {step.kind!r}"
             )
 
-        return RuntimeLogStepDispatch(
-            agent_instruction=instruction,
-            payload={
-                "kind": step.kind,
-                "step_name": step.step_name,
-                "source_reference": step.source_reference,
-                "iteration": iteration,
-                "result_id": result_id,
-                "expected_output": dict(step.outputs_spec),
-            },
-        )
+        payload: RuntimeLogStepDispatch.Payload = {
+            "kind": step.kind,
+            "step_name": step.step_name,
+            "source_reference": step.source_reference,
+            "iteration": iteration,
+            "result_id": result_id,
+            "expected_output": dict(step.outputs_spec),
+        }
+        if step.request is not None:
+            # What was asked, never the state it was asked about.
+            payload["items"] = list(step.request.items)
+            payload["questions"] = {
+                item_id: dict(item.questions)
+                for item_id, item in step.request.items.items()
+            }
+        if step.last:
+            payload["last"] = True
+        return RuntimeLogStepDispatch(agent_instruction=instruction, payload=payload)
 
 
 class InferResultFromPreviousStepHandler(StageHandler):
@@ -605,24 +826,41 @@ class AskVariablesHandler(StageHandler):
 
         module = import_emulator()
         with template_errors(skill_name):
-            declared = module.Emulator.get_input_variables(skill_name)
+            declared = module.Emulator.get_input_variables(skill_name=skill_name)
+            reads = module.Emulator.needs_read_permissions(skill_name=skill_name)
+        workdir = RuntimeLogCreated.workdir(records)
+        if reads and read_policy(workdir) is None:
+            raise ReadPolicyError(
+                f"the skill uses decision_state_from_file() or find_files(), and there is no "
+                f"{LLAJINJA_POLICY_FILE} in the working directory {workdir}"
+            )
 
         missing = []
+        defaulted = []
         for variable in declared.values():
-            if variable.required and variable.name not in known:
+            if variable.name in known:
+                continue
+            if variable.required:
                 missing.append(variable)
+            else:
+                defaulted.append(variable)
 
         if not missing:
-            # Every declared input has a value, move on.
+            # Every required input has a value, move on: the rest use their defaults.
             return self.trigger_next()
 
         variables_block = "\n".join(
             PROMPT_ASK_VARIABLE_ITEM.format(
                 name=variable.name,
                 template=variable.declared_in_reference,
-                requirement="required",
+                requirement=(
+                    "required"
+                    if variable.required
+                    else "has a default value, set it only if the user explicitly"
+                    " provided it in the request"
+                ),
             ).strip()
-            for variable in missing
+            for variable in missing + defaulted
         )
         example_command = " ".join(
             [DRIVER_COMMAND, f"--llajinja-session {ctx.session_id}"]
@@ -646,13 +884,13 @@ class VerifySkillHandler(StageHandler):
         module = import_emulator()
         try:
             loader = module.SkillLoader(
-                module.Emulator.get_skills_dir(), entry_skill_name=skill_name
+                root=module.Emulator.get_skills_dir(), entry_skill_name=skill_name
             )
-            found = loader.get_skill_path(skill_name)
+            found = loader.get_skill_path(reference=skill_name)
         except module.SkillNotFound as exc:
             raise SkillMissingError(str(exc)) from exc
         if found is None:
-            raise SkillMissingError(loader.get_not_found_message(skill_name))
+            raise SkillMissingError(loader.get_not_found_message(reference=skill_name))
         return self.trigger_next()
 
 
@@ -666,10 +904,10 @@ class AskWorkdirHandler(StageHandler):
         if RuntimeLogCreated.workdir(records) is not None:
             return self.trigger_next()
 
-        if ctx.parsed.args:
+        if ctx.given_workdir:
             # This run supplied the workdir path — record it, then move on.
             locked_write_record(
-                ctx, RuntimeLogCreated(payload={"workdir_path": ctx.parsed.args[0]})
+                ctx, RuntimeLogCreated(payload={"workdir_path": ctx.given_workdir})
             )
             return self.trigger_next()
 
@@ -694,8 +932,8 @@ class SessionSetupHandler(StageHandler):
 
         if recorded is None:
             payload: RuntimeLogCreated.Payload = {"skill_name": skill_name}
-            if ctx.parsed.args:
-                payload["workdir_path"] = ctx.parsed.args[0]
+            if ctx.given_workdir:
+                payload["workdir_path"] = ctx.given_workdir
             locked_write_record(ctx, RuntimeLogCreated(payload=payload))
 
         record_supplied_variables(ctx)
@@ -707,6 +945,7 @@ class SessionSetupHandler(StageHandler):
                 driver_command=DRIVER_COMMAND,
                 session_id=ctx.session_id,
                 skill_name=skill_name,
+                optional_variables=self.optional_variables(skill_name),
             )
         )
 
@@ -717,21 +956,44 @@ class SessionSetupHandler(StageHandler):
             raise SkillMissingError("")
         module = import_emulator()
         try:
-            reference = module.SkillLoader.get_normalised_reference(given)
+            reference = module.SkillLoader.get_normalised_reference(reference=given)
         except module.SkillNotFound as exc:
             raise SkillMissingError(str(exc)) from exc
-        if not module.SkillLoader.is_skill_name(reference):
+        if not module.SkillLoader.is_skill_name(reference=reference):
             raise SkillMissingError(
                 f"--skill takes the name of an installed skill, not a path: {given!r}"
             )
         return reference
 
+    def optional_variables(self, skill_name: str) -> str:
+        """The skill's inputs, named on the first call when every one has a default: the
+        variables stage asks only while a required input is missing, so it never names them.
+        """
+        try:
+            with template_errors(skill_name):
+                declared = import_emulator().Emulator.get_input_variables(
+                    skill_name=skill_name
+                )
+        except TemplateLoadError:
+            # The next call reports it, through the stages that load the skill.
+            return ""
+        if not declared or any(variable.required for variable in declared.values()):
+            return ""
+        names = ", ".join(f"`{name}`" for name in declared)
+        return (
+            f"\nThe jinja skill's input variables all have default values: {names}. Set one"
+            " only if the user explicitly provided it in the request, adding"
+            ' `--var name="value"` to the re-run above.'
+        )
+
 
 def main():
     parsed = parse_args()
-    ctx = RequestContext.create(parsed)
     try:
+        ctx = RequestContext.create(parsed)
         record = SessionSetupHandler(ctx).handle()
+        locked_write_record(ctx, record)
+        print(record.agent_instruction)
     except InferResultArgumentsError:
         return
     except SkillMissingError as exc:
@@ -753,8 +1015,30 @@ def main():
             )
         )
         return
-    locked_write_record(ctx, record)
-    print(record.agent_instruction)
+    except DecisionModelError as exc:
+        print(
+            f"A decision agent could not be answered: {exc}\n"
+            "Report this to the user verbatim and stop."
+        )
+        return
+    except NextInstructionError as exc:
+        print(
+            f"The driver could not continue: {exc}\nReport this to the user and stop."
+        )
+        return
+    except ReadPolicyError as exc:
+        print(PROMPT_FALLBACK_READ_POLICY.format(problem=exc))
+        return
+    except Exception as exc:  # catch-all: never a raw traceback to the orchestrator
+        print(
+            f"An unexpected error occurred: {type(exc).__name__}. "
+            "This is a fault in the driver. "
+            "Re-running will not change it. Report this to the user and stop."
+        )
+        return
+    finally:
+        if decision_model is not None:
+            decision_model.close()
 
 
 # ---------------------------------------------------------------------------

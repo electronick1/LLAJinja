@@ -1,0 +1,9 @@
+Deliverables must go under: `{workdir}`
+
+## When the work is done:
+
+Immediately re-run:
+`{driver_command} --llajinja-session {session_id}`
+with no further arguments, and follow the next instruction. Re-running the driver is what
+records this step as done, and the driver decides what comes next — never you, and never
+the instructions above, which describe this step only.
