@@ -1,11 +1,12 @@
 # LLAJinja
 
-LLAJinja is a Skill that runs other Skills written as Jinja templates. No extensions or plugins required. Works in any Harness or AI dev tool that supports skill loading (Claude Code, OpenCode, Codex, Pi ...) 
+LLAJinja is a Skill that runs other Skills written as Jinja templates iteratively through the stages and control flow. No extensions or plugins required. Works in any Harness or AI dev tool that supports skill loading (Claude Code, OpenCode, Codex, Pi ...) 
 
-![image](https://github.com/user-attachments/assets/c34e3391-60d7-4a78-8415-48f335fe3e35)
+![Harness window](https://github.com/electronick1/LLAJinja/blob/dev/assets/readme/llajinja_main.svg)
 
+Each step of the skill execution is part of the state machine that can be resumed any time:
 
-⚠️ Work in progress: this library is under active development. Feedback is appreciated.
+![State](https://github.com/electronick1/LLAJinja/blob/dev/assets/readme/llajinja_state.svg)
 
 ## Features:
 
