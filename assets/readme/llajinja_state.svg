@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1880 940" width="1880" height="940">
+<style>
+.m{font-family:monospace;dominant-baseline:middle;white-space:pre}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+.cursor{animation:blink 1.1s step-end infinite}
+@media(prefers-reduced-motion:reduce){.cursor{animation:none}}
+
+.stepSkill,.stepState,.stepHarness,.stepWire,.stepLabel,.stepItem{opacity:0}
+.stepLog{opacity:.055}
+.stepSkill,.stepState,.stepHarness,.stepWire,.stepLabel,.stepItem,.stepLog{animation-duration:28s;animation-timing-function:linear;animation-iteration-count:infinite}
+.stepSkill,.stepState,.stepHarness,.stepWire,.stepLabel,.stepItem{pointer-events:none}
+.stepWire{stroke-dasharray:100;stroke-dashoffset:100;}
+@media(prefers-reduced-motion:reduce){
+  .stepSkill,.stepState,.stepHarness,.stepWire,.stepLabel,.stepItem,.stepLog,.cursor{animation:none!important}
+  .stepLog{opacity:1!important}
+  .stepSkill,.stepState,.stepHarness,.stepWire,.stepLabel,.stepItem{opacity:0!important}
+}
+
+@keyframes log1{0.000%{opacity:0.055}7.000%{opacity:0.055}7.214%{opacity:0.98}13.714%{opacity:0.98}14.143%{opacity:0.7}98.750%{opacity:0.7}99.964%{opacity:0.055}100.000%{opacity:0.055}}
+@keyframes harnessActive1{0.000%{opacity:0}7.357%{opacity:0}7.429%{opacity:1}7.929%{opacity:1}12.643%{opacity:1}13.714%{opacity:0.1}14.000%{opacity:0}100.000%{opacity:0}}
+@keyframes log2{0.000%{opacity:0.055}21.286%{opacity:0.055}21.500%{opacity:0.98}28.000%{opacity:0.98}28.429%{opacity:0.7}98.750%{opacity:0.7}99.964%{opacity:0.055}100.000%{opacity:0.055}}
+@keyframes harnessActive2{0.000%{opacity:0}21.643%{opacity:0}21.714%{opacity:1}22.214%{opacity:1}26.929%{opacity:1}28.000%{opacity:0.1}28.286%{opacity:0}100.000%{opacity:0}}
+@keyframes log3{0.000%{opacity:0.055}35.571%{opacity:0.055}35.786%{opacity:0.98}42.286%{opacity:0.98}42.714%{opacity:0.7}98.750%{opacity:0.7}99.964%{opacity:0.055}100.000%{opacity:0.055}}
+@keyframes harnessActive3{0.000%{opacity:0}35.929%{opacity:0}36.000%{opacity:1}36.500%{opacity:1}41.214%{opacity:1}42.286%{opacity:0.1}42.571%{opacity:0}100.000%{opacity:0}}
+@keyframes log4{0.000%{opacity:0.055}49.857%{opacity:0.055}50.071%{opacity:0.98}56.571%{opacity:0.98}57.000%{opacity:0.7}98.750%{opacity:0.7}99.964%{opacity:0.055}100.000%{opacity:0.055}}
+@keyframes harnessActive4{0.000%{opacity:0}50.214%{opacity:0}50.286%{opacity:1}50.786%{opacity:1}55.500%{opacity:1}56.571%{opacity:0.1}56.857%{opacity:0}100.000%{opacity:0}}
+@keyframes log5{0.000%{opacity:0.055}64.143%{opacity:0.055}64.357%{opacity:0.98}70.857%{opacity:0.98}71.286%{opacity:0.7}98.750%{opacity:0.7}99.964%{opacity:0.055}100.000%{opacity:0.055}}
+@keyframes harnessActive5{0.000%{opacity:0}64.500%{opacity:0}64.571%{opacity:1}65.071%{opacity:1}69.786%{opacity:1}70.857%{opacity:0.1}71.143%{opacity:0}100.000%{opacity:0}}
+@keyframes log6{0.000%{opacity:0.055}78.429%{opacity:0.055}78.643%{opacity:0.98}85.143%{opacity:0.98}85.571%{opacity:0.7}98.750%{opacity:0.7}99.964%{opacity:0.055}100.000%{opacity:0.055}}
+@keyframes harnessActive6{0.000%{opacity:0}78.786%{opacity:0}78.857%{opacity:1}79.357%{opacity:1}84.071%{opacity:1}85.143%{opacity:0.1}85.429%{opacity:0}100.000%{opacity:0}}
+@keyframes log7{0.000%{opacity:0.055}92.714%{opacity:0.055}92.929%{opacity:0.98}98.571%{opacity:0.7}98.750%{opacity:0.7}99.429%{opacity:0.98}99.964%{opacity:0.055}100.000%{opacity:0.055}}
+@keyframes harnessActive7{0.000%{opacity:0}93.071%{opacity:0}93.143%{opacity:1}93.643%{opacity:1}98.357%{opacity:1}99.429%{opacity:0.1}99.714%{opacity:0}100.000%{opacity:0}}
+@keyframes skill1{0.000%{opacity:1}0.500%{opacity:1}12.214%{opacity:1}13.286%{opacity:0.07}13.571%{opacity:0}100.000%{opacity:0}}
+@keyframes state1{0.000%{opacity:0}3.429%{opacity:0}3.500%{opacity:1}4.000%{opacity:1}11.643%{opacity:1}12.714%{opacity:0.08}13.000%{opacity:0}100.000%{opacity:0}}
+@keyframes stateExtra1{0.000%{opacity:0}4.750%{opacity:0}4.821%{opacity:0.68}5.321%{opacity:0.68}11.036%{opacity:0.68}12.107%{opacity:0.05}12.393%{opacity:0}100.000%{opacity:0}}
+@keyframes flowLeft1{0.000%{opacity:0;stroke-dashoffset:100}2.214%{opacity:0;stroke-dashoffset:100}2.321%{opacity:1;stroke-dashoffset:100}4.036%{opacity:1;stroke-dashoffset:0}5.036%{opacity:1;stroke-dashoffset:0}5.536%{opacity:0;stroke-dashoffset:0}99.964%{opacity:0;stroke-dashoffset:100}100.000%{opacity:0;stroke-dashoffset:100}}
+@keyframes flowRight1{0.000%{opacity:0;stroke-dashoffset:100}5.714%{opacity:0;stroke-dashoffset:100}5.821%{opacity:1;stroke-dashoffset:100}7.536%{opacity:1;stroke-dashoffset:0}8.536%{opacity:1;stroke-dashoffset:0}9.036%{opacity:0;stroke-dashoffset:0}99.964%{opacity:0;stroke-dashoffset:100}100.000%{opacity:0;stroke-dashoffset:100}}
+@keyframes label1{0.000%{opacity:0.95}0.500%{opacity:0.95}13.036%{opacity:0.95}14.107%{opacity:0}14.393%{opacity:0}100.000%{opacity:0}}
+@keyframes skill2{0.000%{opacity:0}14.214%{opacity:0}14.286%{opacity:1}14.786%{opacity:1}26.500%{opacity:1}27.571%{opacity:0.07}27.857%{opacity:0}100.000%{opacity:0}}
+@keyframes state2{0.000%{opacity:0}17.714%{opacity:0}17.786%{opacity:1}18.286%{opacity:1}25.929%{opacity:1}27.000%{opacity:0.08}27.286%{opacity:0}100.000%{opacity:0}}
+@keyframes flowLeft2{0.000%{opacity:0;stroke-dashoffset:100}16.500%{opacity:0;stroke-dashoffset:100}16.607%{opacity:1;stroke-dashoffset:100}18.321%{opacity:1;stroke-dashoffset:0}19.321%{opacity:1;stroke-dashoffset:0}19.821%{opacity:0;stroke-dashoffset:0}99.964%{opacity:0;stroke-dashoffset:100}100.000%{opacity:0;stroke-dashoffset:100}}
+@keyframes flowRight2{0.000%{opacity:0;stroke-dashoffset:100}20.000%{opacity:0;stroke-dashoffset:100}20.107%{opacity:1;stroke-dashoffset:100}21.821%{opacity:1;stroke-dashoffset:0}22.821%{opacity:1;stroke-dashoffset:0}23.321%{opacity:0;stroke-dashoffset:0}99.964%{opacity:0;stroke-dashoffset:100}100.000%{opacity:0;stroke-dashoffset:100}}
+@keyframes label2{0.000%{opacity:0}14.214%{opacity:0}14.286%{opacity:0.95}14.786%{opacity:0.95}27.321%{opacity:0.95}28.393%{opacity:0}28.679%{opacity:0}100.000%{opacity:0}}
+@keyframes skill3{0.000%{opacity:0}28.500%{opacity:0}28.571%{opacity:1}29.071%{opacity:1}40.786%{opacity:1}41.857%{opacity:0.07}42.143%{opacity:0}100.000%{opacity:0}}
+@keyframes state3{0.000%{opacity:0}32.000%{opacity:0}32.071%{opacity:1}32.571%{opacity:1}40.214%{opacity:1}41.286%{opacity:0.08}41.571%{opacity:0}100.000%{opacity:0}}
+@keyframes stateExtra3{0.000%{opacity:0}33.321%{opacity:0}33.393%{opacity:0.68}33.893%{opacity:0.68}39.607%{opacity:0.68}40.679%{opacity:0.05}40.964%{opacity:0}100.000%{opacity:0}}
+@keyframes flowLeft3{0.000%{opacity:0;stroke-dashoffset:100}30.786%{opacity:0;stroke-dashoffset:100}30.893%{opacity:1;stroke-dashoffset:100}32.607%{opacity:1;stroke-dashoffset:0}33.607%{opacity:1;stroke-dashoffset:0}34.107%{opacity:0;stroke-dashoffset:0}99.964%{opacity:0;stroke-dashoffset:100}100.000%{opacity:0;stroke-dashoffset:100}}
+@keyframes flowRight3{0.000%{opacity:0;stroke-dashoffset:100}34.286%{opacity:0;stroke-dashoffset:100}34.393%{opacity:1;stroke-dashoffset:100}36.107%{opacity:1;stroke-dashoffset:0}37.107%{opacity:1;stroke-dashoffset:0}37.607%{opacity:0;stroke-dashoffset:0}99.964%{opacity:0;stroke-dashoffset:100}100.000%{opacity:0;stroke-dashoffset:100}}
+@keyframes label3{0.000%{opacity:0}28.500%{opacity:0}28.571%{opacity:0.95}29.071%{opacity:0.95}41.607%{opacity:0.95}42.679%{opacity:0}42.964%{opacity:0}100.000%{opacity:0}}
+@keyframes skill4{0.000%{opacity:0}42.786%{opacity:0}42.857%{opacity:1}43.357%{opacity:1}55.071%{opacity:1}56.143%{opacity:0.07}56.429%{opacity:0}100.000%{opacity:0}}
+@keyframes state4{0.000%{opacity:0}46.286%{opacity:0}46.357%{opacity:1}46.857%{opacity:1}54.500%{opacity:1}55.571%{opacity:0.08}55.857%{opacity:0}100.000%{opacity:0}}
+@keyframes stateExtra4{0.000%{opacity:0}47.607%{opacity:0}47.679%{opacity:0.68}48.179%{opacity:0.68}53.893%{opacity:0.68}54.964%{opacity:0.05}55.250%{opacity:0}100.000%{opacity:0}}
+@keyframes flowLeft4{0.000%{opacity:0;stroke-dashoffset:100}45.071%{opacity:0;stroke-dashoffset:100}45.179%{opacity:1;stroke-dashoffset:100}46.893%{opacity:1;stroke-dashoffset:0}47.893%{opacity:1;stroke-dashoffset:0}48.393%{opacity:0;stroke-dashoffset:0}99.964%{opacity:0;stroke-dashoffset:100}100.000%{opacity:0;stroke-dashoffset:100}}
+@keyframes flowRight4{0.000%{opacity:0;stroke-dashoffset:100}48.571%{opacity:0;stroke-dashoffset:100}48.679%{opacity:1;stroke-dashoffset:100}50.393%{opacity:1;stroke-dashoffset:0}51.393%{opacity:1;stroke-dashoffset:0}51.893%{opacity:0;stroke-dashoffset:0}99.964%{opacity:0;stroke-dashoffset:100}100.000%{opacity:0;stroke-dashoffset:100}}
+@keyframes label4{0.000%{opacity:0}42.786%{opacity:0}42.857%{opacity:0.95}43.357%{opacity:0.95}55.893%{opacity:0.95}56.964%{opacity:0}57.250%{opacity:0}100.000%{opacity:0}}
+@keyframes item4{0.000%{opacity:0}42.857%{opacity:0}42.929%{opacity:1}43.429%{opacity:1}55.000%{opacity:1}56.071%{opacity:0}56.357%{opacity:0}100.000%{opacity:0}}
+@keyframes skill5{0.000%{opacity:0}57.071%{opacity:0}57.143%{opacity:1}57.643%{opacity:1}69.357%{opacity:1}70.429%{opacity:0.07}70.714%{opacity:0}100.000%{opacity:0}}
+@keyframes state5{0.000%{opacity:0}60.571%{opacity:0}60.643%{opacity:1}61.143%{opacity:1}68.786%{opacity:1}69.857%{opacity:0.08}70.143%{opacity:0}100.000%{opacity:0}}
+@keyframes stateExtra5{0.000%{opacity:0}61.893%{opacity:0}61.964%{opacity:0.68}62.464%{opacity:0.68}68.179%{opacity:0.68}69.250%{opacity:0.05}69.536%{opacity:0}100.000%{opacity:0}}
+@keyframes flowLeft5{0.000%{opacity:0;stroke-dashoffset:100}59.357%{opacity:0;stroke-dashoffset:100}59.464%{opacity:1;stroke-dashoffset:100}61.179%{opacity:1;stroke-dashoffset:0}62.179%{opacity:1;stroke-dashoffset:0}62.679%{opacity:0;stroke-dashoffset:0}99.964%{opacity:0;stroke-dashoffset:100}100.000%{opacity:0;stroke-dashoffset:100}}
+@keyframes flowRight5{0.000%{opacity:0;stroke-dashoffset:100}62.857%{opacity:0;stroke-dashoffset:100}62.964%{opacity:1;stroke-dashoffset:100}64.679%{opacity:1;stroke-dashoffset:0}65.679%{opacity:1;stroke-dashoffset:0}66.179%{opacity:0;stroke-dashoffset:0}99.964%{opacity:0;stroke-dashoffset:100}100.000%{opacity:0;stroke-dashoffset:100}}
+@keyframes label5{0.000%{opacity:0}57.071%{opacity:0}57.143%{opacity:0.95}57.643%{opacity:0.95}70.179%{opacity:0.95}71.250%{opacity:0}71.536%{opacity:0}100.000%{opacity:0}}
+@keyframes item5{0.000%{opacity:0}57.143%{opacity:0}57.214%{opacity:1}57.714%{opacity:1}69.286%{opacity:1}70.357%{opacity:0}70.643%{opacity:0}100.000%{opacity:0}}
+@keyframes skill6{0.000%{opacity:0}71.357%{opacity:0}71.429%{opacity:1}71.929%{opacity:1}83.643%{opacity:1}84.714%{opacity:0.07}85.000%{opacity:0}100.000%{opacity:0}}
+@keyframes state6{0.000%{opacity:0}74.857%{opacity:0}74.929%{opacity:1}75.429%{opacity:1}83.071%{opacity:1}84.143%{opacity:0.08}84.429%{opacity:0}100.000%{opacity:0}}
+@keyframes stateExtra6{0.000%{opacity:0}76.179%{opacity:0}76.250%{opacity:0.68}76.750%{opacity:0.68}82.464%{opacity:0.68}83.536%{opacity:0.05}83.821%{opacity:0}100.000%{opacity:0}}
+@keyframes flowLeft6{0.000%{opacity:0;stroke-dashoffset:100}73.643%{opacity:0;stroke-dashoffset:100}73.750%{opacity:1;stroke-dashoffset:100}75.464%{opacity:1;stroke-dashoffset:0}76.464%{opacity:1;stroke-dashoffset:0}76.964%{opacity:0;stroke-dashoffset:0}99.964%{opacity:0;stroke-dashoffset:100}100.000%{opacity:0;stroke-dashoffset:100}}
+@keyframes flowRight6{0.000%{opacity:0;stroke-dashoffset:100}77.143%{opacity:0;stroke-dashoffset:100}77.250%{opacity:1;stroke-dashoffset:100}78.964%{opacity:1;stroke-dashoffset:0}79.964%{opacity:1;stroke-dashoffset:0}80.464%{opacity:0;stroke-dashoffset:0}99.964%{opacity:0;stroke-dashoffset:100}100.000%{opacity:0;stroke-dashoffset:100}}
+@keyframes label6{0.000%{opacity:0}71.357%{opacity:0}71.429%{opacity:0.95}71.929%{opacity:0.95}84.464%{opacity:0.95}85.536%{opacity:0}85.821%{opacity:0}100.000%{opacity:0}}
+@keyframes item6{0.000%{opacity:0}71.429%{opacity:0}71.500%{opacity:1}72.000%{opacity:1}83.571%{opacity:1}84.643%{opacity:0}84.929%{opacity:0}100.000%{opacity:0}}
+@keyframes skill7{0.000%{opacity:0}85.643%{opacity:0}85.714%{opacity:1}86.214%{opacity:1}97.929%{opacity:1}99.000%{opacity:0.07}99.286%{opacity:0}100.000%{opacity:0}}
+@keyframes state7{0.000%{opacity:0}89.143%{opacity:0}89.214%{opacity:1}89.714%{opacity:1}97.357%{opacity:1}98.429%{opacity:0.08}98.714%{opacity:0}100.000%{opacity:0}}
+@keyframes flowLeft7{0.000%{opacity:0;stroke-dashoffset:100}87.929%{opacity:0;stroke-dashoffset:100}88.036%{opacity:1;stroke-dashoffset:100}89.750%{opacity:1;stroke-dashoffset:0}90.750%{opacity:1;stroke-dashoffset:0}91.250%{opacity:0;stroke-dashoffset:0}99.964%{opacity:0;stroke-dashoffset:100}100.000%{opacity:0;stroke-dashoffset:100}}
+@keyframes flowRight7{0.000%{opacity:0;stroke-dashoffset:100}91.429%{opacity:0;stroke-dashoffset:100}91.536%{opacity:1;stroke-dashoffset:100}93.250%{opacity:1;stroke-dashoffset:0}94.250%{opacity:1;stroke-dashoffset:0}94.750%{opacity:0;stroke-dashoffset:0}99.964%{opacity:0;stroke-dashoffset:100}100.000%{opacity:0;stroke-dashoffset:100}}
+@keyframes label7{0.000%{opacity:0}85.643%{opacity:0}85.714%{opacity:0.95}86.214%{opacity:0.95}98.750%{opacity:0.95}99.821%{opacity:0}99.964%{opacity:0}100.000%{opacity:0}}</style>
+<defs>
+  <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d1d24"/><stop offset="1" stop-color="#15151a"/></linearGradient>
+  <marker id="arr" viewBox="0 0 10 8" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L9 4 L0 8 z" fill="#e0a458"/></marker>
+</defs>
+<rect x="0" y="0" width="1880" height="940" rx="0" fill="#08090c" stroke="none" stroke-width="1"/>
+<rect x="19" y="39" width="744" height="852" rx="16" fill="#0c0c10" stroke="#454550" stroke-width="1.6"/>
+<path d="M20 94 V56 Q20 40 36 40 H746 Q762 40 762 56 V94 Z" fill="url(#bar)"/>
+<path d="M20 94 H762" fill="none" stroke="#292932" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="43" cy="67" r="7" fill="#d97757"/>
+<circle cx="66" cy="67" r="7" fill="#e0a458"/>
+<circle cx="89" cy="67" r="7" fill="#8fbf6f"/>
+<text class="m" x="122" y="68" font-size="16" fill="#dcdce2" font-weight="500">SKILL.md</text>
+<text class="m" x="740" y="68" font-size="13" fill="#777782" text-anchor="end">~/skills</text>
+<rect x="780" y="39" width="422" height="852" rx="16" fill="#0c0c10" stroke="#454550" stroke-width="1.6"/>
+<path d="M781 94 V56 Q781 40 797 40 H1185 Q1201 40 1201 56 V94 Z" fill="url(#bar)"/>
+<path d="M781 94 H1201" fill="none" stroke="#292932" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="804" cy="67" r="7" fill="#d97757"/>
+<circle cx="827" cy="67" r="7" fill="#e0a458"/>
+<circle cx="850" cy="67" r="7" fill="#8fbf6f"/>
+<text class="m" x="883" y="68" font-size="16" fill="#dcdce2" font-weight="500">Execution states</text>
+<text class="m" x="1179" y="68" font-size="13" fill="#777782" text-anchor="end">~/runtime</text>
+<rect x="1219" y="39" width="642" height="852" rx="16" fill="#0c0c10" stroke="#454550" stroke-width="1.6"/>
+<path d="M1220 94 V56 Q1220 40 1236 40 H1844 Q1860 40 1860 56 V94 Z" fill="url(#bar)"/>
+<path d="M1220 94 H1860" fill="none" stroke="#292932" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="1243" cy="67" r="7" fill="#d97757"/>
+<circle cx="1266" cy="67" r="7" fill="#e0a458"/>
+<circle cx="1289" cy="67" r="7" fill="#8fbf6f"/>
+<text class="m" x="1322" y="68" font-size="14" fill="#dcdce2" font-weight="500">Claude Code / Codex / OpenCode / PI / …</text>
+<rect x="39" y="268" width="4" height="87" rx="1" fill="#e0a458" stroke="none" stroke-width="1" opacity="0.54"/>
+<rect x="39" y="377" width="4" height="231" rx="1" fill="#e0a458" stroke="none" stroke-width="1" opacity="0.54"/>
+<rect x="39" y="631" width="4" height="145" rx="1" fill="#e0a458" stroke="none" stroke-width="1" opacity="0.54"/>
+<text class="m" x="56" y="137" font-size="15.35" xml:space="preserve"><tspan fill="#d97757">---</tspan></text>
+<text class="m" x="56" y="167" font-size="15.35" xml:space="preserve"><tspan fill="#d97757" font-weight="600">name:</tspan><tspan fill="#dcdce2"> research-plan</tspan></text>
+<text class="m" x="56" y="197" font-size="15.35" xml:space="preserve"><tspan fill="#d97757" font-weight="600">description:</tspan><tspan fill="#dcdce2"> Plan work with stages and sub-agents.</tspan></text>
+<text class="m" x="56" y="227" font-size="15.35" xml:space="preserve"><tspan fill="#d97757">---</tspan></text>
+<text class="m" x="56" y="282" font-size="15.35" xml:space="preserve"><tspan fill="#e0a458" font-weight="600">{% stage "collect" %}</tspan></text>
+<text class="m" x="56" y="311" font-size="15.35" xml:space="preserve"><tspan fill="#dcdce2">  Understand </tspan><tspan fill="#e0a458" font-weight="600">{{ input.topic | default("the task") }}</tspan><tspan fill="#dcdce2">.</tspan></text>
+<text class="m" x="56" y="340" font-size="15.35" xml:space="preserve"><tspan fill="#e0a458" font-weight="600">{% endstage %}</tspan></text>
+<text class="m" x="56" y="391" font-size="15.35" xml:space="preserve"><tspan fill="#e0a458" font-weight="600">{% if input.use_agents | default("yes") == "yes" %}</tspan></text>
+<text class="m" x="56" y="420" font-size="15.35" xml:space="preserve"><tspan fill="#e0a458" font-weight="600">  {% agent researcher outputs={"facts": "key facts"} %}</tspan></text>
+<text class="m" x="56" y="449" font-size="15.35" xml:space="preserve"><tspan fill="#dcdce2">    Research </tspan><tspan fill="#e0a458">{{ input.topic | default("the task") }}</tspan><tspan fill="#dcdce2">.</tspan></text>
+<text class="m" x="56" y="478" font-size="15.35" xml:space="preserve"><tspan fill="#e0a458" font-weight="600">  {% endagent %}</tspan></text>
+<text class="m" x="56" y="507" font-size="15.35" xml:space="preserve"><tspan fill="#e0a458">  {% set facts = researcher.facts %}</tspan></text>
+<text class="m" x="56" y="536" font-size="15.35" xml:space="preserve"><tspan fill="#e0a458" font-weight="600">{% else %}</tspan></text>
+<text class="m" x="56" y="565" font-size="15.35" xml:space="preserve"><tspan fill="#e0a458">  {% set facts = "context" %}</tspan></text>
+<text class="m" x="56" y="594" font-size="15.35" xml:space="preserve"><tspan fill="#e0a458" font-weight="600">{% endif %}</tspan></text>
+<text class="m" x="56" y="645" font-size="15.35" xml:space="preserve"><tspan fill="#e0a458" font-weight="600">{% for item in ["setup", "analysis", "report"] %}</tspan></text>
+<text class="m" x="56" y="674" font-size="15.35" xml:space="preserve"><tspan fill="#e0a458" font-weight="600">  {% stage item %}</tspan></text>
+<text class="m" x="56" y="703" font-size="15.35" xml:space="preserve"><tspan fill="#dcdce2">    Handle </tspan><tspan fill="#e0a458">{{ item }}</tspan><tspan fill="#dcdce2"> using </tspan><tspan fill="#e0a458">{{ facts }}</tspan><tspan fill="#dcdce2">.</tspan></text>
+<text class="m" x="56" y="732" font-size="15.35" xml:space="preserve"><tspan fill="#e0a458" font-weight="600">  {% endstage %}</tspan></text>
+<text class="m" x="56" y="761" font-size="15.35" xml:space="preserve"><tspan fill="#e0a458" font-weight="600">{% endfor %}</tspan></text>
+<text class="m" x="56" y="818" font-size="15.35" xml:space="preserve"><tspan fill="#dcdce2">Report the findings to the user.</tspan></text>
+<path d="M991.0 195 V219" fill="none" stroke="#e0a458" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arr)"/>
+<path d="M991.0 270 V294" fill="none" stroke="#e0a458" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arr)"/>
+<path d="M991.0 495 V519" fill="none" stroke="#e0a458" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arr)"/>
+<path d="M991.0 570 V594" fill="none" stroke="#e0a458" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arr)"/>
+<path d="M991.0 645 V669" fill="none" stroke="#e0a458" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arr)"/>
+<path d="M991.0 345 V369" fill="none" stroke="#e0a458" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arr)"/>
+<path d="M991.0 420 V444" fill="none" stroke="#e0a458" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arr)"/>
+<path d="M991.0 495 V519" fill="none" stroke="#e0a458" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arr)"/>
+<path d="M991.0 570 V594" fill="none" stroke="#e0a458" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arr)"/>
+<path d="M991.0 645 V669" fill="none" stroke="#e0a458" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arr)"/>
+<path d="M991.0 720 V744" fill="none" stroke="#e0a458" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arr)"/>
+<path d="M1141 399 H1175 V549 H1149" fill="none" stroke="#e0a458" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+<path d="M1149 549 H1141" fill="none" stroke="#e0a458" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85" marker-end="url(#arr)"/>
+<path d="M841 699 H807 Q799 699 799 691 V247 Q799 244 810 244 H831" fill="none" stroke="#e0a458" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.98" marker-end="url(#arr)"/>
+<rect x="841" y="153" width="300" height="42" rx="8" fill="#201b17" stroke="#98692f" stroke-width="1.5"/>
+<text class="m" x="991.0" y="174" font-size="16.0" fill="#dcdce2" text-anchor="middle">Collect inputs</text>
+<rect x="841" y="228" width="300" height="42" rx="8" fill="#201b17" stroke="#98692f" stroke-width="1.5"/>
+<text class="m" x="991.0" y="249" font-size="16.0" fill="#dcdce2" text-anchor="middle">Render next boundary</text>
+<rect x="841" y="303" width="300" height="42" rx="8" fill="#201b17" stroke="#98692f" stroke-width="1.5"/>
+<text class="m" x="991.0" y="324" font-size="16.0" fill="#dcdce2" text-anchor="middle">Execute stage in harness</text>
+<rect x="841" y="378" width="300" height="42" rx="8" fill="#201b17" stroke="#98692f" stroke-width="1.5"/>
+<text class="m" x="991.0" y="393" font-size="16.2" fill="#dcdce2" text-anchor="middle">Evaluate condition</text>
+<text class="m" x="991.0" y="410" font-size="11.6" fill="#777782" text-anchor="middle">if / branch</text>
+<rect x="841" y="453" width="300" height="42" rx="8" fill="#201b17" stroke="#98692f" stroke-width="1.5"/>
+<text class="m" x="991.0" y="468" font-size="16.2" fill="#dcdce2" text-anchor="middle">Run sub-agent</text>
+<text class="m" x="991.0" y="485" font-size="11.6" fill="#777782" text-anchor="middle">if yes</text>
+<rect x="841" y="528" width="300" height="42" rx="8" fill="#201b17" stroke="#98692f" stroke-width="1.5"/>
+<text class="m" x="991.0" y="549" font-size="16.0" fill="#dcdce2" text-anchor="middle">Resume with outputs</text>
+<rect x="841" y="603" width="300" height="42" rx="8" fill="#201b17" stroke="#98692f" stroke-width="1.5"/>
+<text class="m" x="991.0" y="618" font-size="16.2" fill="#dcdce2" text-anchor="middle">Render stage for item</text>
+<text class="m" x="991.0" y="635" font-size="11.6" fill="#777782" text-anchor="middle">loop body</text>
+<rect x="841" y="678" width="300" height="42" rx="8" fill="#201b17" stroke="#98692f" stroke-width="1.5"/>
+<text class="m" x="991.0" y="693" font-size="16.2" fill="#dcdce2" text-anchor="middle">More items?</text>
+<text class="m" x="991.0" y="710" font-size="11.6" fill="#777782" text-anchor="middle">repeat or finish</text>
+<rect x="841" y="753" width="300" height="42" rx="8" fill="#2a2019" stroke="#e0a458" stroke-width="1.5"/>
+<text class="m" x="991.0" y="774" font-size="16.0" fill="#e0a458" font-weight="600" text-anchor="middle">Final response</text>
+<text class="m" x="1162" y="444" font-size="12" fill="#777782" text-anchor="end">no</text>
+<text class="m" x="1009.0" y="444" font-size="12" fill="#777782">yes</text>
+<text class="m" x="805" y="665" font-size="12" fill="#777782">yes</text>
+<text class="m" x="1009.0" y="744" font-size="12" fill="#777782">no</text>
+<rect x="1246" y="137" width="585" height="87" rx="8" fill="#111114" stroke="#383840" stroke-width="1.2"/>
+<text class="m" x="1267" y="166" font-size="17" xml:space="preserve"><tspan fill="#d97757" font-weight="600">&gt; </tspan><tspan fill="#e0a458" font-weight="600">/llajinja</tspan><tspan fill="#dcdce2"> run </tspan><tspan fill="#e0a458" font-weight="600">/research-plan</tspan></text>
+<text class="m" x="1288" y="198" font-size="14.5" xml:space="preserve"><tspan fill="#b4b4c0">topic=</tspan><tspan fill="#dcdce2">"release checklist"</tspan><tspan fill="#b4b4c0">  use_agents=</tspan><tspan fill="#e0a458">"yes"</tspan></text>
+<text class="m" x="1250" y="265" font-size="11.8" fill="#5f5f6b" font-weight="600">HARNESS EXECUTION</text>
+<g id="harness-log-1" class="stepLog" style="animation-name:log1"><rect x="1239" y="278" width="600" height="74" rx="7" fill="#e0a458" fill-opacity=".075" stroke="#e0a458" stroke-width="1.5" stroke-opacity=".82" class="stepHarness" style="animation-name:harnessActive1"/><circle cx="1255" cy="313" r="5.3" fill="#e0a458"/>
+<text class="m" x="1273" y="313" font-size="11" fill="#777782">01</text>
+<text class="m" x="1314" y="313" font-size="17" fill="#e0a458" font-weight="500">Stage — collect</text>
+<text class="m" x="1314" y="340" font-size="14" fill="#777782">&gt; instructions rendered and executed</text>
+</g><g id="harness-log-2" class="stepLog" style="animation-name:log2"><rect x="1239" y="356" width="600" height="74" rx="7" fill="#e0a458" fill-opacity=".075" stroke="#e0a458" stroke-width="1.5" stroke-opacity=".82" class="stepHarness" style="animation-name:harnessActive2"/><circle cx="1255" cy="391" r="5.3" fill="#e0a458"/>
+<text class="m" x="1273" y="391" font-size="11" fill="#777782">02</text>
+<text class="m" x="1314" y="391" font-size="17" fill="#e0a458" font-weight="500">If — use_agents == yes</text>
+<text class="m" x="1314" y="418" font-size="14" fill="#777782">&gt; conditional branch selected</text>
+</g><g id="harness-log-3" class="stepLog" style="animation-name:log3"><rect x="1239" y="434" width="600" height="74" rx="7" fill="#e0a458" fill-opacity=".075" stroke="#e0a458" stroke-width="1.5" stroke-opacity=".82" class="stepHarness" style="animation-name:harnessActive3"/><circle cx="1255" cy="469" r="5.3" fill="#e0a458"/>
+<text class="m" x="1273" y="469" font-size="11" fill="#777782">03</text>
+<text class="m" x="1314" y="469" font-size="17" fill="#e0a458" font-weight="500">Sub-agent — researcher</text>
+<text class="m" x="1314" y="496" font-size="14" fill="#777782">&gt; returns facts for later steps</text>
+</g><g id="harness-log-4" class="stepLog" style="animation-name:log4"><rect x="1239" y="512" width="600" height="74" rx="7" fill="#e0a458" fill-opacity=".075" stroke="#e0a458" stroke-width="1.5" stroke-opacity=".82" class="stepHarness" style="animation-name:harnessActive4"/><circle cx="1255" cy="547" r="5.3" fill="#e0a458"/>
+<text class="m" x="1273" y="547" font-size="11" fill="#777782">04</text>
+<text class="m" x="1314" y="547" font-size="17" fill="#dcdce2" font-weight="500">Stage — setup</text>
+<text class="m" x="1314" y="574" font-size="14" fill="#777782">&gt; rendered, executed, resumed</text>
+</g><g id="harness-log-5" class="stepLog" style="animation-name:log5"><rect x="1239" y="590" width="600" height="74" rx="7" fill="#e0a458" fill-opacity=".075" stroke="#e0a458" stroke-width="1.5" stroke-opacity=".82" class="stepHarness" style="animation-name:harnessActive5"/><circle cx="1255" cy="625" r="5.3" fill="#e0a458"/>
+<text class="m" x="1273" y="625" font-size="11" fill="#777782">05</text>
+<text class="m" x="1314" y="625" font-size="17" fill="#dcdce2" font-weight="500">Stage — analysis</text>
+<text class="m" x="1314" y="652" font-size="14" fill="#777782">&gt; uses facts from researcher</text>
+</g><g id="harness-log-6" class="stepLog" style="animation-name:log6"><rect x="1239" y="668" width="600" height="74" rx="7" fill="#e0a458" fill-opacity=".075" stroke="#e0a458" stroke-width="1.5" stroke-opacity=".82" class="stepHarness" style="animation-name:harnessActive6"/><circle cx="1255" cy="703" r="5.3" fill="#e0a458"/>
+<text class="m" x="1273" y="703" font-size="11" fill="#777782">06</text>
+<text class="m" x="1314" y="703" font-size="17" fill="#dcdce2" font-weight="500">Stage — report</text>
+<text class="m" x="1314" y="730" font-size="14" fill="#777782">&gt; final loop iteration</text>
+</g><g id="harness-log-7" class="stepLog" style="animation-name:log7"><rect x="1239" y="746" width="600" height="74" rx="7" fill="#e0a458" fill-opacity=".075" stroke="#e0a458" stroke-width="1.5" stroke-opacity=".82" class="stepHarness" style="animation-name:harnessActive7"/><circle cx="1255" cy="781" r="5.3" fill="#e0a458"/>
+<text class="m" x="1273" y="781" font-size="11" fill="#777782">07</text>
+<text class="m" x="1314" y="781" font-size="17" fill="#8fbf6f" font-weight="500">Finish — answer ready</text>
+<path d="M1250 830 H1831" fill="none" stroke="#292932" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+</g><rect x="1250" y="848" width="3" height="13" rx="0" fill="#d97757" stroke="none" stroke-width="1"/>
+<text class="m" x="1270" y="854" font-size="13.0" xml:space="preserve"><tspan fill="#777782">render</tspan><tspan fill="#e0a458">  &gt;  </tspan><tspan fill="#777782">execute</tspan><tspan fill="#e0a458">  &gt;  </tspan><tspan fill="#777782">resume</tspan><tspan fill="#e0a458">  &gt;  </tspan><tspan fill="#8fbf6f">repeat / finish</tspan></text>
+<g id="animated-execution"><rect x="48" y="265" width="703" height="92" rx="7" fill="#e0a458" stroke="#ffcc78" fill-opacity=".07" stroke-width="1.85" class="stepSkill" style="animation-name:skill1"/><rect x="839" y="226" width="304" height="46" rx="9" fill="#e0a458" stroke="#ffcc78" fill-opacity=".14" stroke-width="2.5" class="stepState" style="animation-name:state1"/><rect x="839" y="301" width="304" height="46" rx="9" fill="#e0a458" stroke="#e4a96b" fill-opacity=".075" stroke-width="1.9" class="stepState" style="animation-name:stateExtra1"/><path d="M750 311 C781 311 794 249 834 249" fill="none" stroke="#efb45b" stroke-width="2.7" stroke-linecap="round" marker-end="url(#arr)" pathLength="100" class="stepWire" style="animation-name:flowLeft1"/><path d="M1145 249 C1177 249 1201 313 1244 313" fill="none" stroke="#efb45b" stroke-width="2.7" stroke-linecap="round" marker-end="url(#arr)" pathLength="100" class="stepWire" style="animation-name:flowRight1"/><text x="940" y="919" class="m stepLabel" style="animation-name:label1" font-size="15" fill="#e0a458" text-anchor="middle">01 / 07  •  Collect stage  •  SKILL  →  STATE  →  HARNESS</text><rect x="48" y="375" width="703" height="29" rx="7" fill="#e0a458" stroke="#ffcc78" fill-opacity=".07" stroke-width="1.85" class="stepSkill" style="animation-name:skill2"/><rect x="839" y="376" width="304" height="46" rx="9" fill="#e0a458" stroke="#ffcc78" fill-opacity=".14" stroke-width="2.5" class="stepState" style="animation-name:state2"/><path d="M750 391 C781 391 794 399 834 399" fill="none" stroke="#efb45b" stroke-width="2.7" stroke-linecap="round" marker-end="url(#arr)" pathLength="100" class="stepWire" style="animation-name:flowLeft2"/><path d="M1145 399 C1177 399 1201 391 1244 391" fill="none" stroke="#efb45b" stroke-width="2.7" stroke-linecap="round" marker-end="url(#arr)" pathLength="100" class="stepWire" style="animation-name:flowRight2"/><text x="940" y="919" class="m stepLabel" style="animation-name:label2" font-size="15" fill="#e0a458" text-anchor="middle">02 / 07  •  Evaluate condition  •  SKILL  →  STATE  →  HARNESS</text><rect x="48" y="406" width="703" height="111" rx="7" fill="#e0a458" stroke="#ffcc78" fill-opacity=".07" stroke-width="1.85" class="stepSkill" style="animation-name:skill3"/><rect x="839" y="451" width="304" height="46" rx="9" fill="#e0a458" stroke="#ffcc78" fill-opacity=".14" stroke-width="2.5" class="stepState" style="animation-name:state3"/><rect x="839" y="526" width="304" height="46" rx="9" fill="#e0a458" stroke="#e4a96b" fill-opacity=".075" stroke-width="1.9" class="stepState" style="animation-name:stateExtra3"/><path d="M750 449 C781 449 794 474 834 474" fill="none" stroke="#efb45b" stroke-width="2.7" stroke-linecap="round" marker-end="url(#arr)" pathLength="100" class="stepWire" style="animation-name:flowLeft3"/><path d="M1145 474 C1177 474 1201 469 1244 469" fill="none" stroke="#efb45b" stroke-width="2.7" stroke-linecap="round" marker-end="url(#arr)" pathLength="100" class="stepWire" style="animation-name:flowRight3"/><text x="940" y="919" class="m stepLabel" style="animation-name:label3" font-size="15" fill="#e0a458" text-anchor="middle">03 / 07  •  Run researcher sub-agent  •  SKILL  →  STATE  →  HARNESS</text><rect x="48" y="629" width="703" height="149" rx="7" fill="#e0a458" stroke="#ffcc78" fill-opacity=".07" stroke-width="1.85" class="stepSkill" style="animation-name:skill4"/><rect x="839" y="601" width="304" height="46" rx="9" fill="#e0a458" stroke="#ffcc78" fill-opacity=".14" stroke-width="2.5" class="stepState" style="animation-name:state4"/><rect x="839" y="301" width="304" height="46" rx="9" fill="#e0a458" stroke="#e4a96b" fill-opacity=".075" stroke-width="1.9" class="stepState" style="animation-name:stateExtra4"/><path d="M750 703 C781 703 794 624 834 624" fill="none" stroke="#efb45b" stroke-width="2.7" stroke-linecap="round" marker-end="url(#arr)" pathLength="100" class="stepWire" style="animation-name:flowLeft4"/><path d="M1145 624 C1177 624 1201 547 1244 547" fill="none" stroke="#efb45b" stroke-width="2.7" stroke-linecap="round" marker-end="url(#arr)" pathLength="100" class="stepWire" style="animation-name:flowRight4"/><text x="940" y="919" class="m stepLabel" style="animation-name:label4" font-size="15" fill="#e0a458" text-anchor="middle">04 / 07  •  Loop item: setup  •  SKILL  →  STATE  →  HARNESS</text><g class="stepItem" style="animation-name:item4"><rect x="53" y="845" width="267" height="29" rx="5" fill="#241b12" stroke="#9f783b" stroke-width="1"/><text x="66" y="860" class="m" font-size="12" fill="#e0a458">current loop item: setup</text></g><rect x="48" y="629" width="703" height="149" rx="7" fill="#e0a458" stroke="#ffcc78" fill-opacity=".07" stroke-width="1.85" class="stepSkill" style="animation-name:skill5"/><rect x="839" y="601" width="304" height="46" rx="9" fill="#e0a458" stroke="#ffcc78" fill-opacity=".14" stroke-width="2.5" class="stepState" style="animation-name:state5"/><rect x="839" y="301" width="304" height="46" rx="9" fill="#e0a458" stroke="#e4a96b" fill-opacity=".075" stroke-width="1.9" class="stepState" style="animation-name:stateExtra5"/><path d="M750 703 C781 703 794 624 834 624" fill="none" stroke="#efb45b" stroke-width="2.7" stroke-linecap="round" marker-end="url(#arr)" pathLength="100" class="stepWire" style="animation-name:flowLeft5"/><path d="M1145 624 C1177 624 1201 625 1244 625" fill="none" stroke="#efb45b" stroke-width="2.7" stroke-linecap="round" marker-end="url(#arr)" pathLength="100" class="stepWire" style="animation-name:flowRight5"/><text x="940" y="919" class="m stepLabel" style="animation-name:label5" font-size="15" fill="#e0a458" text-anchor="middle">05 / 07  •  Loop item: analysis  •  SKILL  →  STATE  →  HARNESS</text><g class="stepItem" style="animation-name:item5"><rect x="53" y="845" width="267" height="29" rx="5" fill="#241b12" stroke="#9f783b" stroke-width="1"/><text x="66" y="860" class="m" font-size="12" fill="#e0a458">current loop item: analysis</text></g><rect x="48" y="629" width="703" height="149" rx="7" fill="#e0a458" stroke="#ffcc78" fill-opacity=".07" stroke-width="1.85" class="stepSkill" style="animation-name:skill6"/><rect x="839" y="601" width="304" height="46" rx="9" fill="#e0a458" stroke="#ffcc78" fill-opacity=".14" stroke-width="2.5" class="stepState" style="animation-name:state6"/><rect x="839" y="301" width="304" height="46" rx="9" fill="#e0a458" stroke="#e4a96b" fill-opacity=".075" stroke-width="1.9" class="stepState" style="animation-name:stateExtra6"/><path d="M750 703 C781 703 794 624 834 624" fill="none" stroke="#efb45b" stroke-width="2.7" stroke-linecap="round" marker-end="url(#arr)" pathLength="100" class="stepWire" style="animation-name:flowLeft6"/><path d="M1145 624 C1177 624 1201 703 1244 703" fill="none" stroke="#efb45b" stroke-width="2.7" stroke-linecap="round" marker-end="url(#arr)" pathLength="100" class="stepWire" style="animation-name:flowRight6"/><text x="940" y="919" class="m stepLabel" style="animation-name:label6" font-size="15" fill="#e0a458" text-anchor="middle">06 / 07  •  Loop item: report  •  SKILL  →  STATE  →  HARNESS</text><g class="stepItem" style="animation-name:item6"><rect x="53" y="845" width="267" height="29" rx="5" fill="#241b12" stroke="#9f783b" stroke-width="1"/><text x="66" y="860" class="m" font-size="12" fill="#e0a458">current loop item: report</text></g><rect x="48" y="799" width="703" height="37" rx="7" fill="#e0a458" stroke="#ffcc78" fill-opacity=".07" stroke-width="1.85" class="stepSkill" style="animation-name:skill7"/><rect x="839" y="751" width="304" height="46" rx="9" fill="#e0a458" stroke="#ffcc78" fill-opacity=".14" stroke-width="2.5" class="stepState" style="animation-name:state7"/><path d="M750 818 C781 818 794 774 834 774" fill="none" stroke="#efb45b" stroke-width="2.7" stroke-linecap="round" marker-end="url(#arr)" pathLength="100" class="stepWire" style="animation-name:flowLeft7"/><path d="M1145 774 C1177 774 1201 781 1244 781" fill="none" stroke="#efb45b" stroke-width="2.7" stroke-linecap="round" marker-end="url(#arr)" pathLength="100" class="stepWire" style="animation-name:flowRight7"/><text x="940" y="919" class="m stepLabel" style="animation-name:label7" font-size="15" fill="#e0a458" text-anchor="middle">07 / 07  •  Final response  •  SKILL  →  STATE  →  HARNESS</text></g><text x="991" y="125" class="m" font-size="11" fill="#74747f" text-anchor="middle">RESUMABLE STATE MACHINE</text></svg>
